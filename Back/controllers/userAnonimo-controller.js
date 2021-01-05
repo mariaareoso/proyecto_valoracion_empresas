@@ -6,9 +6,9 @@ const Joi = require('joi');
 
 async function getListEmpresa(req, res) {
     try {
-      const {nombre, sede} = req.query;
+      const {nombre_empresa, sede} = req.query;
 
-      const listEmpresa = await anonimoRepository.getListEmpresa(nombre,sede);
+      const listEmpresa = await anonimoRepository.getListEmpresa(nombre_empresa,sede);
 
       if(!listEmpresa){
         throw new Error('No existen datos');

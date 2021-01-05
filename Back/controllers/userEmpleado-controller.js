@@ -110,10 +110,80 @@ async function register(req, res) {
     }
   }
   
+  async function getIdUser(req, res) {
+    try {
+      const userId = req.auth.id
+
+      const user = await empleadoRepository.getIdUser(userId);
+  
+      res.send(user);
+    } catch (err) {
+      if(err.name === 'ValidationError'){
+        err.status = 400;
+      }
+      console.log(err);
+      res.status(err.status || 500);
+      res.send({ error: err.message });
+    }
+  }
+
+  async function updateInfoUser(req, res) {
+    try {   
+      const { nombre, pais, ciudad, email, password} = req.body;
+  
+      const schema = Joi.object({
+        nombre: Joi.string().required(),
+        pais: Joi.string(),
+        ciudad: Joi.string(),
+        email: Joi.string().email().required(),
+        password: Joi.string().required(),
+      });
+  
+      await schema.validateAsync({ nombre, pais, ciudad, email,password});
+
+      const Job = await empleadoRepository.updateUser(nombre, pais, ciudad, email,password, req.auth.id);
+  
+      res.send(Job);
+    } catch (err) {
+      if(err.name === 'ValidationError'){
+        err.status = 400;
+      }
+      console.log(err);
+      res.status(err.status || 500);
+      res.send({ error: err.message });
+    }
+  }
+
+  async function deleteJob(req, res) {
+    try {  
+      const { idaspecto } = req.body;
+      const schema = Joi.number().positive().required();
+      await schema.validateAsync(idaspecto);
+  
+      const Job = await empleadoRepository.getAspect(idaspecto);
+
+      if(!Job){
+        throw new Error('Puesto no existe');
+      }
+  
+      await empleadoRepository.deleteAspect(idaspecto);
+  
+      res.send({message: 'Puesto borrado' });
+    } catch (err) {
+      console.log(err);
+      if(err.name === 'ValidationError'){
+        err.status = 400;
+      }
+      res.status(err.status || 500);
+      res.send({ error: err.message });
+    }
+  }
 
   module.exports = {
     register,
     login,
-    updateJob
-
+    updateJob,
+    getIdUser,
+    updateInfoUser,
+    deleteJob
   };

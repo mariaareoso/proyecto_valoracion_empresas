@@ -10,7 +10,7 @@ async function createUser(email, password){
 
 async function creatreEmpresa(nombre, sede, sitio_web, link, resumen){
     const pool = await database.getPool();
-    const Query = 'INSERT INTO empresa (nombre, sede, sitio_web, link, resumen) VALUES (?, ?, ?, ?, ?)';
+    const Query = 'INSERT INTO empresa (nombre_empresa, sede, sitio_web, link, resumen) VALUES (?, ?, ?, ?, ?)';
     await pool.query(Query, [nombre, sede, sitio_web, link, resumen]);
   
     return true;
@@ -34,7 +34,7 @@ async function updateSetEmpresa(email, clave, id){
 
 async function getEmpresa(idempresa){
     const pool = await database.getPool();
-    const query = 'SELECT nombre, sede, bio,link, opinion, accesibilidad, ambiente_de_trabajo, sueldos, posibilidad_de_ascenso, conciliacion, estabilidad FROM empresa WHERE nombre=?';
+    const query = 'SELECT nombre_empresa, sede, bio,link, opinion, accesibilidad, ambiente_de_trabajo, sueldos, posibilidad_de_ascenso, conciliacion, estabilidad FROM empresa WHERE nombre=?';
     const [empresa] = await pool.query(query, [idempresa]);
   
     return empresa;
