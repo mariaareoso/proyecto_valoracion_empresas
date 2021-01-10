@@ -18,6 +18,7 @@ async function getPool(){
       database: DATABASE_NAME,
       user: DATABASE_USER,
       password: DATABASE_PASSWORD,
+      timezone:"Z"
     });
   }
 

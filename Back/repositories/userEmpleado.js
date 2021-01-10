@@ -13,6 +13,7 @@ async function getIdUser(idUser){
     const query = 'SELECT u.nombre, u.pais, u.ciudad, u.link, e.nombre_empresa,e.sede,a.puesto, a.fecha_inicio, a.fecha_fin, u.email,u.clave,a.validacion FROM usuario AS u left JOIN aspecto AS a ON a.idusuario=u.idusuario JOIN empresa AS e ON a.idempresa=e.idempresa WHERE u.idusuario= ?';
     const [User] = await pool.query(query, [idUser]);
     
+
     return User;
 }
 
@@ -41,6 +42,15 @@ async function getAspect(id){
     return reviews[0];
 }
 
+async function getAspectVal(id,idempresa){
+    const pool = await database.getPool(); 
+    const query = 'SELECT validacion FROM aspecto WHERE idusuario like ? and idempresa like ?';
+    const [reviews] = await pool.query(query, id,idempresa);
+    
+    return reviews[0];
+}
+
+
 async function deleteAspect(id){
     const pool = await database.getPool(); 
     const query = 'DELETE FROM aspecto WHERE idaspecto = ?';
@@ -59,7 +69,7 @@ async function getListEmpresa(nombre, sede){
 
 async function creatreJob(idE, id, puesto, fecI, fecF){
     const pool = await database.getPool();
-    const Query = 'INSERT INTO aspecto (idempresa, idusuario, puesto, fecha_inicio, fecha_fin) VALUES (?, ?, ?, ?,?)';
+    const Query = 'INSERT INTO aspecto (idempresa,idusuario, puesto, fecha_inicio, fecha_fin) VALUES (?, ?, ?, ?,?)';
     await pool.query(Query, [idE, id, puesto, fecI, fecF]);
   
     return true;
@@ -73,12 +83,12 @@ async function getEmpresa(idempresa){
     return empresa;
 }
 
-async function createReview(idusuario, idempresa, opinion, accesibilidad, ambiente_de_trabajo, sueldos, posibilidad_de_ascenso, conciliacion, estabilidad){
+async function createReview(opinion, accesibilidad, ambiente_de_trabajo, sueldos, posibilidad_de_ascenso, conciliacion, estabilidad, idempresa, idusuario){
     const pool = await database.getPool();
   
-    const insertQuery = 'INSERT INTO empresa (idusuario, idempresa, opinion, accesibilidad, ambiente_de_trabajo, sueldos, posibilidad_de_ascenso, conciliacion, estabilidad) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    const insertQuery = 'UPDATE aspecto SET opinion=?, accesibilidad = ?, ambiente_de_trabajo = ?, sueldos = ?, posibilidad_de_ascenso = ? , conciliacion = ? , estabilidad = ? WHERE idempresa = ? AND idusuario= ?';
     const [created] = await pool.query(insertQuery, [
-        idusuario, idempresa, opinion, accesibilidad, ambiente_de_trabajo, sueldos, posibilidad_de_ascenso, conciliacion, estabilidad
+        opinion, accesibilidad, ambiente_de_trabajo, sueldos, posibilidad_de_ascenso, conciliacion, estabilidad, idempresa, idusuario
     ]);
   
     return created.insertId;
@@ -90,6 +100,7 @@ module.exports = {
     getIdUser,
     updateUser,
     getAspect,
+    getAspectVal,
     deleteAspect,
     getListEmpresa,
     creatreJob,

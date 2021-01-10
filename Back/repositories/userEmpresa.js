@@ -8,42 +8,42 @@ async function createUser(email, password){
     return created.insertId;
 }
 
-async function creatreEmpresa(nombre, sede, sitio_web, link, resumen){
+async function creatreEmpresa(nombre_empresa, sede, link, bio, idusuario){
     const pool = await database.getPool();
-    const Query = 'INSERT INTO empresa (nombre_empresa, sede, sitio_web, link, resumen) VALUES (?, ?, ?, ?, ?)';
-    await pool.query(Query, [nombre, sede, sitio_web, link, resumen]);
+    const Query = 'INSERT INTO empresa (nombre_empresa, sede, link, bio, idusuario) VALUES(?,?,?,?,?)'
+    await pool.query(Query, [nombre_empresa, sede, link, bio, idusuario]);
   
     return true;
 }
 
 async function getSetEmpresa(idUser){
     const pool = await database.getPool();
-    const query = 'SELECT email, clave, link FROM usuario';
+    const query = 'SELECT email, clave, link FROM usuario WHERE idusuario = ?';
     const [Set] = await pool.query(query, [idUser]);
   
     return Set;
 }
 
-async function updateSetEmpresa(email, clave, id){
+async function updateSetEmpresa(email, clave, link, id){
     const pool = await database.getPool();
-    const updateQuery = 'UPDATE usuario SET email = ?, clave = ?  WHERE idusuario = ?';
-    await pool.query(updateQuery, [email, clave, id]);
+    const updateQuery = 'UPDATE usuario SET email = ?, clave = ?, link = ? WHERE idusuario = ?';
+    await pool.query(updateQuery, [email, clave,link, id]);
   
     return true;
 }
 
 async function getEmpresa(idempresa){
     const pool = await database.getPool();
-    const query = 'SELECT nombre_empresa, sede, bio,link, opinion, accesibilidad, ambiente_de_trabajo, sueldos, posibilidad_de_ascenso, conciliacion, estabilidad FROM empresa WHERE nombre=?';
+    const query = 'SELECT nombre_empresa, sede, bio,link, opinion, accesibilidad, ambiente_de_trabajo, sueldos, posibilidad_de_ascenso, conciliacion, estabilidad FROM empresa WHERE idempresa=?';
     const [empresa] = await pool.query(query, [idempresa]);
   
     return empresa;
 }
 
-async function updateEmpresa(sede, web, bio, link, idempresa){
+async function updateEmpresa(sede, bio, link, idempresa, idusuario){
     const pool = await database.getPool();
-    const updateQuery = 'UPDATE usuario SET sede = ?, web = ?,  bio = ?, link = ?  WHERE idempresa = ?';
-    await pool.query(updateQuery, [sede, web, bio, link, idempresa]);
+    const updateQuery = 'UPDATE empresa SET sede = ?, bio = ?, link=? WHERE idempresa = ? AND idusuario =?';
+    await pool.query(updateQuery, [sede, bio, link, idempresa, idusuario]);
   
     return true;
 }
@@ -67,7 +67,7 @@ async function getReviews(idempresa){
 
 async function getReviewEmpleado(idempresa, idusuario){
     const pool = await database.getPool();
-    const query = 'SELECT a.idempresa, u.nombre, a.opinion, ROUND((a.accesibilidad + a.ambiente_de_trabajo + a.sueldos + a.posibilidad_de_ascenso + a.conciliacion + a.estabilidad) / 6) AS a.valoracion, a.accesibilidad, a.ambiente_de_trabajo, a.sueldos, a.posibilidad_de_ascenso, a.conciliacion, a.estabilidad FROM usuario AS u left JOIN aspecto AS a ON a.idusuario=u.idusuario WHERE a.idempresa= ? AND a.idusuario = ?';
+    const query = 'SELECT a.idempresa, u.nombre, a.opinion, ROUND((a.accesibilidad + a.ambiente_de_trabajo + a.sueldos + a.posibilidad_de_ascenso + a.conciliacion + a.estabilidad) / 6) AS valoracion, a.accesibilidad, a.ambiente_de_trabajo, a.sueldos, a.posibilidad_de_ascenso, a.conciliacion, a.estabilidad FROM usuario AS u left JOIN aspecto AS a ON a.idusuario=u.idusuario WHERE a.idempresa= ? AND a.idusuario = ?';
     const [review] = await pool.query(query, [idempresa,idusuario]);
   
     return review;

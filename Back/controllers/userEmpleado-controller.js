@@ -3,7 +3,12 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const {
-  empleadoRepository
+  formatDateBS
+} = require('../helpers/helpers')
+
+const {
+  empleadoRepository,
+  empresaRepository
 } = require('../repositories');
 
 async function register(req, res) {
@@ -40,7 +45,7 @@ async function register(req, res) {
     }
   }
 
-  async function login(req, res) {
+async function login(req, res) {
     try {
       const { email, password } = req.body;
   
@@ -84,7 +89,7 @@ async function register(req, res) {
     }
   }
 
-  async function updateJob(req, res) {
+async function updateJob(req, res) {
     try {   
       const { idE, puesto, fecI, fecF } = req.body;
   
@@ -110,7 +115,7 @@ async function register(req, res) {
     }
   }
   
-  async function getIdUser(req, res) {
+async function getIdUser(req, res) {
     try {
       const userId = req.auth.id
 
@@ -127,7 +132,7 @@ async function register(req, res) {
     }
   }
 
-  async function updateInfoUser(req, res) {
+async function updateInfoUser(req, res) {
     try {   
       const { nombre, pais, ciudad, email, password} = req.body;
   
@@ -141,7 +146,9 @@ async function register(req, res) {
   
       await schema.validateAsync({ nombre, pais, ciudad, email,password});
 
-      const Job = await empleadoRepository.updateUser(nombre, pais, ciudad, email,password, req.auth.id);
+      const passwordHash = await bcrypt.hash(password, 10);
+
+      const Job = await empleadoRepository.updateUser(nombre, pais, ciudad, email,passwordHash, req.auth.id);
   
       res.send(Job);
     } catch (err) {
@@ -154,7 +161,7 @@ async function register(req, res) {
     }
   }
 
-  async function deleteJob(req, res) {
+async function deleteJob(req, res) {
     try {  
       const { idaspecto } = req.body;
       const schema = Joi.number().positive().required();
@@ -179,11 +186,48 @@ async function register(req, res) {
     }
   }
 
+async function createReview(req,res) {
+  try {
+    const userId = req.auth.id;
+    console.log(userId);
+
+    const {opinion, accesibilidad, ambiente_de_trabajo, sueldos, posibilidad_de_ascenso, conciliacion, estabilidad } = req.body;
+    
+    const schema = Joi.object({
+      opinion: Joi.string().min(4).max(150),
+      accesibilidad: Joi.number().min(0).max(5),
+      ambiente_de_trabajo: Joi.number().min(0).max(5),
+      sueldos: Joi.number().min(0).max(5),
+      posibilidad_de_ascenso: Joi.number().min(0).max(5),
+      conciliacion: Joi.number().min(0).max(5),
+      estabilidad: Joi.number().min(0).max(5),
+    });
+    const empresaid = req.params.idempresa
+    console.log(empresaid)
+
+    await schema.validateAsync({ opinion, accesibilidad, ambiente_de_trabajo, sueldos, posibilidad_de_ascenso, conciliacion, estabilidad });
+
+    const review = await empleadoRepository.createReview(opinion, accesibilidad, ambiente_de_trabajo, sueldos, posibilidad_de_ascenso, conciliacion, estabilidad, empresaid, req.auth.id);
+
+    console.log(review);
+    res.send({review});
+
+  } catch (err) {
+    console.log(err);
+    if(err.name === 'ValidationError'){
+      err.status = 400;
+    }
+    res.status(err.status || 500);
+    res.send({ error: err.message });
+  }
+}
+
   module.exports = {
     register,
     login,
     updateJob,
     getIdUser,
     updateInfoUser,
-    deleteJob
+    deleteJob,
+    createReview
   };
