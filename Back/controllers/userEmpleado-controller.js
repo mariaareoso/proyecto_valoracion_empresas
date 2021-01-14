@@ -3,10 +3,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const {
-  formatDateBS
-} = require('../helpers/helpers')
-
-const {
   empleadoRepository,
   empresaRepository
 } = require('../repositories');
@@ -17,11 +13,13 @@ async function register(req, res) {
         email: Joi.string().email().required(),
         password: Joi.string().min(4).max(20).required(),
         repeatPassword: Joi.ref('password'),
+        empresa:Joi.number(),
+        empleado:Joi.number()
       });
   
       await registerSchema.validateAsync(req.body);
   
-      const {email, password } = req.body;
+      const {email, password, empresa, empleado } = req.body;
   
       const user = await empleadoRepository.getUserByEmail(email);
   
@@ -32,7 +30,7 @@ async function register(req, res) {
       }
   
       const passwordHash = await bcrypt.hash(password, 10);
-      const id = await empleadoRepository.createUser(email, passwordHash);
+      const id = await empleadoRepository.createUser(email, passwordHash, empresa, empleado);
   
       return res.send({ id });
     }catch(err){
@@ -102,9 +100,18 @@ async function updateJob(req, res) {
   
       await schema.validateAsync({ idE, puesto, fecI, fecF});
 
-      const Job = await empleadoRepository.creatreJob(idE, req.auth.id, puesto, fecI, fecF);
-  
-      res.send(Job);
+      const stateUser = await empleadoRepository.getStateUser(req.auth.id);
+
+      console.log(stateUser);
+
+      if (stateUser.empresa===0) {
+        const Job = await empleadoRepository.creatreJob(idE, req.auth.id, puesto, fecI, fecF);
+    
+        return res.send(Job);
+      }else{
+        res.send('Eres un empresa')
+      }
+
     } catch (err) {
       if(err.name === 'ValidationError'){
         err.status = 400;
@@ -207,10 +214,18 @@ async function createReview(req,res) {
 
     await schema.validateAsync({ opinion, accesibilidad, ambiente_de_trabajo, sueldos, posibilidad_de_ascenso, conciliacion, estabilidad });
 
-    const review = await empleadoRepository.createReview(opinion, accesibilidad, ambiente_de_trabajo, sueldos, posibilidad_de_ascenso, conciliacion, estabilidad, empresaid, req.auth.id);
+    const validacion = await empleadoRepository.getValidacion(req.auth.id, empresaid);
 
-    console.log(review);
-    res.send({review});
+    console.log(validacion[0].validacion);
+
+    if (validacion[0].validacion===1) {
+      const review = await empleadoRepository.createReview(opinion, accesibilidad, ambiente_de_trabajo, sueldos, posibilidad_de_ascenso, conciliacion, estabilidad, empresaid, req.auth.id);
+  
+      return res.send({review});
+    } else{
+      res.send('No estas validado por la empresa')
+    }
+
 
   } catch (err) {
     console.log(err);

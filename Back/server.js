@@ -36,6 +36,7 @@ app.put('/users/valorar/:idempresa', validateAuth, empleadoController.createRevi
 // empresaUsers
 
 app.put('/users/addempresa', validateAuth, empresaController.addEmpresa);
+app.delete('/users/deletempresa/:idempresa', validateAuth, empresaController.deleteEmpresa);
 app.get('/users/getSetempresa', validateAuth, empresaController.getEmpresaSetInfo);
 app.put('/users/updateSetEmpresa', validateAuth, empresaController.updateSetEmpresa);
 app.put('/users/updateInfoEmpresa/:empresaId', validateAuth, empresaController.updateEmpresa);

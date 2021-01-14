@@ -8,11 +8,12 @@ const {
     empleadoRepository,
     empresaRepository
   } = require('../repositories');
+
 const { query } = require('express');
 
 async function addEmpresa(req, res) {
     try {   
-      const { nombre_empresa, sede, link, bio} = req.body;
+      const { nombre_empresa, sede, link, bio } = req.body;
   
       const schema = Joi.object({
         nombre_empresa: Joi.string(),
@@ -23,7 +24,19 @@ async function addEmpresa(req, res) {
   
       await schema.validateAsync({ nombre_empresa, sede, link, bio});
 
+      const stateUser = await empleadoRepository.getStateUser(req.auth.id);
+
+      console.log(stateUser);
+
+      if (stateUser.empresa===1) {
+  
       const empresa = await empresaRepository.creatreEmpresa(nombre_empresa, sede, link, bio, req.auth.id);
+    
+        return res.send(empresa);
+      }else{
+        res.send('Eres un empleado')
+      }
+
   
       res.send(empresa);
     } catch (err) {
@@ -36,7 +49,25 @@ async function addEmpresa(req, res) {
     }
   }
 
-  async function getEmpresaSetInfo(req, res) {
+async function deleteEmpresa(req, res) {
+    try {  
+      const idempresa = req.params.idempresa
+      const iduser = req.auth.id
+
+      await empresaRepository.deleteEmpresa(iduser, idempresa);
+
+      res.send({message: 'Empresa borrada' });
+    } catch (err) {
+      console.log(err);
+      if(err.name === 'ValidationError'){
+        err.status = 400;
+      }
+      res.status(err.status || 500);
+      res.send({ error: err.message });
+    }
+}
+
+async function getEmpresaSetInfo(req, res) {
     try {
   
       const empresa = await empresaRepository.getSetEmpresa(req.auth.id);
@@ -50,7 +81,7 @@ async function addEmpresa(req, res) {
       res.status(err.status || 500);
       res.send({ error: err.message });
     }
-  }
+}
 
 async function updateSetEmpresa(req, res) {
   try {   
@@ -173,6 +204,7 @@ async function valoracionEmpleado(req, res) {
 
 module.exports={
     addEmpresa,
+    deleteEmpresa,
     getEmpresaSetInfo,
     updateSetEmpresa,
     updateEmpresa,

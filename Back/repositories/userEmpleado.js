@@ -1,3 +1,4 @@
+const { query } = require('express');
 const database = require('../infrastructure/database');
 
 async function getUserByEmail(email){
@@ -17,14 +18,13 @@ async function getIdUser(idUser){
     return User;
 }
 
-async function createUser(email, password){
+async function createUser(email, password, empresa, empleado){
     const pool = await database.getPool();
-    const insertQuery = 'INSERT INTO usuario (email, clave) VALUES (?, ?)';
-    const [created] = await pool.query(insertQuery, [email, password]);
+    const insertQuery = 'INSERT INTO usuario (email, clave, empresa, empleado) VALUES (?, ?, ?, ?)';
+    const [created] = await pool.query(insertQuery, [email, password, empresa, empleado]);
   
     return created.insertId;
 }
-
 
 async function updateUser(nombre, pais, ciudad, email, clave, id){
     const pool = await database.getPool();
@@ -50,7 +50,6 @@ async function getAspectVal(id,idempresa){
     return reviews[0];
 }
 
-
 async function deleteAspect(id){
     const pool = await database.getPool(); 
     const query = 'DELETE FROM aspecto WHERE idaspecto = ?';
@@ -67,6 +66,14 @@ async function getListEmpresa(nombre, sede){
     return empresas;
 }
 
+async function getStateUser(id){
+    const pool = await database.getPool();
+    const Query = 'SELECT empresa FROM usuario WHERE idusuario=?';
+    const [estado] = await pool.query(Query, [id]);
+  
+    return estado[0];
+}
+
 async function creatreJob(idE, id, puesto, fecI, fecF){
     const pool = await database.getPool();
     const Query = 'INSERT INTO aspecto (idempresa,idusuario, puesto, fecha_inicio, fecha_fin) VALUES (?, ?, ?, ?,?)';
@@ -81,6 +88,14 @@ async function getEmpresa(idempresa){
     const [empresa] = await pool.query(query, [idempresa]);
   
     return empresa;
+}
+
+async function getValidacion(id, idempresa){
+    const pool = await database.getPool();
+    const query = 'SELECT validacion FROM aspecto WHERE idusuario=? and idempresa=?';
+    const [valicion] = await pool.query(query, [id, idempresa]);
+  
+    return valicion;
 }
 
 async function createReview(opinion, accesibilidad, ambiente_de_trabajo, sueldos, posibilidad_de_ascenso, conciliacion, estabilidad, idempresa, idusuario){
@@ -103,7 +118,9 @@ module.exports = {
     getAspectVal,
     deleteAspect,
     getListEmpresa,
+    getStateUser,
     creatreJob,
     getEmpresa,
+    getValidacion,
     createReview
 }

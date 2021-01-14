@@ -1,18 +1,18 @@
 const database = require('../infrastructure/database');
 
-async function createUser(email, password){
-    const pool = await database.getPool();
-    const insertQuery = 'INSERT INTO usuario (email, clave) VALUES (?, ?)';
-    const [created] = await pool.query(insertQuery, [email, password]);
-  
-    return created.insertId;
-}
-
 async function creatreEmpresa(nombre_empresa, sede, link, bio, idusuario){
     const pool = await database.getPool();
     const Query = 'INSERT INTO empresa (nombre_empresa, sede, link, bio, idusuario) VALUES(?,?,?,?,?)'
     await pool.query(Query, [nombre_empresa, sede, link, bio, idusuario]);
   
+    return true;
+}
+
+async function deleteEmpresa(idusuario, idempresa){
+    const pool = await database.getPool(); 
+    const query = 'DELETE FROM empresa WHERE idusuario = ? AND idempresa = ?';
+    const [empresa] = await pool.query(query, [idusuario, idempresa]);
+    
     return true;
 }
 
@@ -74,8 +74,8 @@ async function getReviewEmpleado(idempresa, idusuario){
 }
 
 module.exports= {
-    createUser,
     creatreEmpresa,
+    deleteEmpresa,
     getSetEmpresa,
     updateSetEmpresa,
     getEmpresa,

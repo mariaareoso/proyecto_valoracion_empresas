@@ -41,8 +41,30 @@ async function getEmpresaInfo(req, res) {
   }
 }
 
+async function getListEmpresaValoracion(req, res) {
+  try {
+    const {sede} = req.query;
+
+    const listEmpresa = await anonimoRepository.getListEmpresa(nombre_empresa,sede);
+
+    if(!listEmpresa){
+      throw new Error('No existen datos');
+    }
+
+    res.send({ listEmpresa:listEmpresa });
+} catch (err) {
+  if(err.name === 'ValidationError'){
+    err.status = 400;
+  }
+  console.log(err);
+  res.status(err.status || 500);
+  res.send({ error: err.message });
+}
+}
+
 module.exports = {
   getListEmpresa,
-  getEmpresaInfo
+  getEmpresaInfo,
+  getListEmpresaValoracion
 };
 
