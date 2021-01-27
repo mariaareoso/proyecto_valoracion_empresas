@@ -20,16 +20,18 @@ async function getEmpresa(idempresa) {
   const pool = await database.getPool();
   let query;
   let empresa;
-  // if ([]) {
-  //   (query = 'SELECT e.nombre_empresa, e.sede, e.bio, e.link FROM empresa e WHERE e.idempresa= ?'),
-  //     ([empresa] = await pool.query(query, [idempresa]));
-  // } else {
-  query =
-    'SELECT e.nombre_empresa, e.sede, e.bio, e.link, a.accesibilidad, a.ambiente_de_trabajo, a.sueldos, a.opinion, a.posibilidad_de_ascenso, a.conciliacion, a.estabilidad FROM empresa e JOIN aspecto a ON  e.idempresa = a.idempresa  WHERE e.idempresa= ?';
-  [empresa] = await pool.query(query, [idempresa]);
-  // }
-  console.log(empresa);
-  return empresa;
+
+  const queryEmpresa = 'SELECT e.nombre_empresa, e.sede, e.bio, e.link FROM empresa e WHERE e.idempresa= ?';
+  const datosEmpresa = await pool.query(queryEmpresa, [idempresa]);
+
+  const queryOpinionesEmpresa =
+    'SELECT accesibilidad, ambiente_de_trabajo, sueldos, opinion, posibilidad_de_ascenso, conciliacion, estabilidad FROM aspecto WHERE idempresa= ?';
+  const opinionesEmpresa = await pool.query(queryOpinionesEmpresa, [idempresa]);
+
+  return {
+    datos: datosEmpresa[0][0],
+    opiniones: opinionesEmpresa[0],
+  };
 }
 
 async function getListEmpresaValoracion(mediaValoracion) {

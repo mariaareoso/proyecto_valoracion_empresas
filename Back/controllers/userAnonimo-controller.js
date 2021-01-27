@@ -14,7 +14,7 @@ async function getListEmpresa(req, res) {
       throw new Error('No existen datos');
     }
 
-    res.send({ listEmpresa: listEmpresa });
+    res.send({ data: listEmpresa });
   } catch (err) {
     if (err.name === 'ValidationError') {
       err.status = 400;
@@ -30,13 +30,13 @@ async function getEmpresaInfo(req, res) {
     const empresaId = req.params.idempresa;
     const empresa = await anonimoRepository.getEmpresa(empresaId);
 
-    res.send(empresa[0]);
-    if (empresa.length === 0) {
+    if (!empresa.datos) {
       const error = new Error('Empresa no emcontrada');
       error.status = 404;
       throw error;
     }
-    res.send(empresa[0]);
+
+    res.send(empresa);
   } catch (err) {
     if (err.name === 'ValidationError') {
       err.status = 400;

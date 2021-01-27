@@ -86,10 +86,20 @@ async function relationIduserIdempresa(idempresa) {
   return verificacion;
 }
 
-async function uploadValidacion(idusuario, idempresa) {
+async function uploadValidacion(idaspecto, idempresa, idpropietario) {
   const pool = await database.getPool();
-  const query = 'UPDATE aspecto SET validacion = 1 WHERE idusuario = ? AND idempresa=?';
-  const [valicion] = await pool.query(query, [idusuario, idempresa]);
+  //comprobar si el idpropietario es el usuario asociado con idempresa
+
+  const propietarioQuery = 'SELECT idempresa from empresa WHERE idempresa=? AND idusuario=?';
+  const propietarioCheck = await pool.query(propietarioQuery, [idempresa, idpropietario]);
+
+  if (propietarioCheck[0].length === 0) {
+    const error = new Error('No eres el propietario de la empresa');
+    error.status = 401;
+    throw error;
+  }
+  const query = 'UPDATE aspecto SET validacion = 1 WHERE idaspecto = ?';
+  await pool.query(query, [idaspecto]);
 
   return true;
 }

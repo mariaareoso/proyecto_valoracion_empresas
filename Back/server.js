@@ -35,11 +35,12 @@ app.put('/users/valorar/:idempresa', validateAuth, empleadoController.createRevi
 app.put('/users/addempresa', validateAuth, empresaController.addEmpresa);
 app.delete('/users/deletempresa/:idempresa', validateAuth, empresaController.deleteEmpresa);
 app.get('/users/getSetempresa', validateAuth, empresaController.getEmpresaSetInfo);
+app.get('/empresainfo/:idempresa', anonimoController.getEmpresaInfo);
 app.put('/users/updateSetEmpresa', validateAuth, empresaController.updateSetEmpresa);
 app.put('/users/updateInfoEmpresa/:idempresa', validateAuth, empresaController.updateEmpresa);
 app.get('/users/listempleados/:idempresa', validateAuth, empresaController.listEmpleados);
 app.get('/users/listvaloraciones/:idempresa', validateAuth, empresaController.listValoraciones);
-app.get('/users/valoracionEmpreleado/:idempresa', validateAuth, empresaController.valoracionEmpleado);
-app.put('/users/validacionEmpreleado/:idempresa', validateAuth, empresaController.validarEmpleado);
+app.get('/users/valoracionEmpleado/:idempresa', validateAuth, empresaController.valoracionEmpleado);
+app.put('/users/validacionEmpleado/:idempresa', validateAuth, empresaController.validarEmpleado);
 
 app.listen(SERVER_PORT, () => console.log(`Escuchando ${SERVER_PORT}`));

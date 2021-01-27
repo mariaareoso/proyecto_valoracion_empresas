@@ -18,8 +18,6 @@ async function register(req, res) {
       empleado: Joi.number(),
     });
 
-    ifç;
-
     await registerSchema.validateAsync(req.body);
 
     const { email, password, empresa, empleado } = req.body;

@@ -94,7 +94,7 @@ async function updateSetEmpresa(req, res) {
 
     const user = await empleadoRepository.getUserByEmail(email);
 
-    if (user) {
+    if (user.email === email) {
       const error = new Error('Ya existe un usuario con ese email');
       error.status = 409;
       throw error;
@@ -193,9 +193,10 @@ async function listValoraciones(req, res) {
 
 async function valoracionEmpleado(req, res) {
   try {
+    const idusuario = req.body;
     const idempresa = req.params.idempresa;
 
-    const reviewEmpleado = await empresaRepository.getReviewEmpleado(idempresa, req.auth.id);
+    const reviewEmpleado = await empresaRepository.getReviewEmpleado(idempresa, idusuario.idusuario);
 
     if (!reviewEmpleado) {
       throw new Error('No existen datos');
@@ -214,10 +215,11 @@ async function valoracionEmpleado(req, res) {
 
 async function validarEmpleado(req, res) {
   try {
-    const idempresa = req.auth.id;
-    const idusuario = req.body;
+    const idempresa = req.params.idempresa;
+    const idaspecto = req.body.idaspecto;
+    const idpropietario = req.auth.id;
 
-    const validacionEmpleado = await empresaRepository.uploadValidacion(idusuario.idusuario, idempresa);
+    const validacionEmpleado = await empresaRepository.uploadValidacion(idaspecto, idempresa, idpropietario);
 
     return res.send(validacionEmpleado);
   } catch (err) {
