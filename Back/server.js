@@ -3,6 +3,7 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors')
 
 const { anonimoController, empleadoController, empresaController } = require('./controllers');
 
@@ -11,6 +12,8 @@ const validateAuth = require('./middlewares/validate-auth');
 const { SERVER_PORT } = process.env;
 
 const app = express();
+
+app.use(cors())
 
 app.use(bodyParser.json());
 
