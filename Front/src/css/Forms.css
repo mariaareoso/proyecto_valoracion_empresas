@@ -1,0 +1,15 @@
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 300px;
+}
+
+form input{
+    margin: 10px 0px;
+}
+
+.error{
+    margin-top: 5px;
+    color: red;
+}
