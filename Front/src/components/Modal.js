@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import Modal from 'antd/lib/modal';
 import Button from 'antd/lib/button';
 import 'antd/dist/antd.css';
-import '../css/Modal.css';
+// import './Modal.css';
+import './home/Navigation.css'
 
 function PopUp(props) {
   const { children, title } = props;
@@ -27,7 +28,7 @@ function PopUp(props) {
 
   return (
     <>
-      <Button style={color = 'red'} type="primary" onClick={showModal}>
+      <Button className='PopUpButton' type="primary" onClick={showModal}>
         iniciar sesión
       </Button>
       <Modal

@@ -9,10 +9,13 @@ const { anonimoController, empleadoController, empresaController } = require('./
 const validateAuth = require('./middlewares/validate-auth');
 
 const { SERVER_PORT } = process.env;
+const cors = require('cors')
+
 
 const app = express();
 
 app.use(bodyParser.json());
+app.use(cors())
 
 // anonimoUsers
 

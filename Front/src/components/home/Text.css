@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+
+.contenido{
+    display: flex;
+    flex-direction: row;
+    margin: 30px 0;
+}
+
+.image{
+    width:750px;
+}
+
+.imgtextleft{
+    float: right;
+}
+
+.titulo{
+    font-family: Roboto, sans-serif;
+    font-size: 60px;
+    font-weight: bold;
+}
+
+.texto{
+    font-family: Roboto, sans-serif;
+    font-size: 25px;
+    width: 90%;
+}

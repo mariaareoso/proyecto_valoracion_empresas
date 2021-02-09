@@ -28,10 +28,10 @@ async function createUser(email, password, empresa, empleado) {
   return created.insertId;
 }
 
-async function updateUser(nombre, pais, ciudad, email, clave, id) {
+async function updateUser(nombre, pais, ciudad, link, email, clave, id) {
   const pool = await database.getPool();
-  const updateQuery = 'UPDATE usuario SET nombre = ?, pais = ?, ciudad = ?, email = ?, clave = ?  WHERE idusuario = ?';
-  await pool.query(updateQuery, [nombre, pais, ciudad, email, clave, id]);
+  const updateQuery = 'UPDATE usuario SET nombre = ?, pais = ?, ciudad = ?, link=?,  email = ?, clave = ?  WHERE idusuario = ?';
+  await pool.query(updateQuery, [nombre, pais, ciudad, link, email, clave, id]);
 
   return true;
 }

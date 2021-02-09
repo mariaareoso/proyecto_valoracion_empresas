@@ -1,12 +1,15 @@
+
 import EmpresaSummary from './EmpresaSummary';
 
-function EmpresaList(props) {
-  console.log(props);
+
+function EmpresaList({ empresas }) {
+
+  console.log(empresas);
+
   return (
     <section>
-      {props.empresas.map((item) => {
-        console.log(item);
-        return <EmpresaSummary key={item.idempresa} empresa={item}></EmpresaSummary>;
+      {empresas.map((item) => {
+        return <EmpresaSummary key={`empresa_${item.idempresa}`} empresa={item}></EmpresaSummary>;
       })}
     </section>
   );

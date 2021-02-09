@@ -7,10 +7,10 @@ async function getListEmpresa(nombre_empresa, sede) {
   let query;
   let empresas;
   if (!nombre_empresa && !sede) {
-    query = 'SELECT nombre_empresa, sede, bio,link FROM empresa';
+    query = 'SELECT idempresa, nombre_empresa, sede, bio,link FROM empresa';
     [empresas] = await pool.query(query);
   } else {
-    query = 'SELECT nombre_empresa, sede, bio,link FROM empresa WHERE nombre_empresa LIKE ? OR sede LIKE ?';
+    query = 'SELECT idempresa, nombre_empresa, sede, bio,link FROM empresa WHERE nombre_empresa LIKE ? OR sede LIKE ?';
     [empresas] = await pool.query(query, [`%${nombre_empresa}%`, `%${sede}%`]);
   }
   return empresas;

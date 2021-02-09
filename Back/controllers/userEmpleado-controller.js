@@ -5,6 +5,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { MAILGUN_KEY, DOMAIN } = process.env;
 const mailgun = require('mailgun-js');
+const {
+  processAndSavePhoto
+} = require("../helpers");
 
 const { empleadoRepository } = require('../repositories');
 
@@ -150,7 +153,7 @@ async function getIdUser(req, res) {
 
 async function updateInfoUser(req, res) {
   try {
-    const { nombre, pais, ciudad, email, password } = req.body;
+    const { nombre, pais, ciudad, email, password  } = req.body;
 
     const schema = Joi.object({
       nombre: Joi.string().required(),
@@ -162,11 +165,20 @@ async function updateInfoUser(req, res) {
 
     await schema.validateAsync({ nombre, pais, ciudad, email, password });
 
+    let link = null;
+    if (req.files && req.files.photo) {
+      try {
+        link = await processAndSavePhoto(req.files.photo);
+      } catch (error) {
+        throw generateError("Can not process upload image. Try again later.");
+      }
+    }
+
     const passwordHash = await bcrypt.hash(password, 10);
 
-    const Job = await empleadoRepository.updateUser(nombre, pais, ciudad, email, passwordHash, req.auth.id);
+    const userInfo = await empleadoRepository.updateUser(nombre, pais, ciudad, link, email, passwordHash, req.auth.id);
 
-    res.send(Job);
+    res.send(userInfo);
   } catch (err) {
     if (err.name === 'ValidationError') {
       err.status = 400;

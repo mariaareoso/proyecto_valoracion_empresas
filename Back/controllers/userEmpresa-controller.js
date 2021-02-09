@@ -4,6 +4,10 @@ const Joi = require('joi');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+const {
+  processAndSavePhoto
+} = require("../helpers");
+
 const { empleadoRepository, empresaRepository } = require('../repositories');
 
 const { query } = require('express');
@@ -86,11 +90,10 @@ async function updateSetEmpresa(req, res) {
 
     const schema = Joi.object({
       email: Joi.string().email(),
-      password: Joi.string().min(4).max(20),
-      link: Joi.string(),
+      password: Joi.string().min(4).max(20)
     });
 
-    await schema.validateAsync({ email, password, link });
+    await schema.validateAsync({ email, password });
 
     const user = await empleadoRepository.getUserByEmail(email);
 
@@ -99,6 +102,14 @@ async function updateSetEmpresa(req, res) {
       error.status = 409;
       throw error;
     } else {
+      let link = null;
+      if (req.files && req.files.photo) {
+        try {
+          link = await processAndSavePhoto(req.files.photo);
+        } catch (error) {
+          throw generateError("Can not process upload image. Try again later.");
+        }
+      }
       const passwordHash = await bcrypt.hash(password, 10);
       const setEmpresa = await empresaRepository.updateSetEmpresa(email, passwordHash, link, req.auth.id);
       return res.send(setEmpresa);

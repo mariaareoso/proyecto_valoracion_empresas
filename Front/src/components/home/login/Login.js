@@ -1,5 +1,5 @@
-import LoginForm from '../LoginFrom';
-import useAuth from '../../shared/hooks/useAuth';
+import LoginForm from './LoginFrom';
+import useAuth from '../../../shared/hooks/useAuth';
 
 function Login() {
   const { signIn } = useAuth;

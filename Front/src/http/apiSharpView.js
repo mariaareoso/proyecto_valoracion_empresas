@@ -36,7 +36,7 @@ async function search(textoABuscar) {
   const userData = await fetchApi(`/resultadoBusqueda/?nombre_empresa=${textoABuscar}&sede=${textoABuscar}`, {
     method: 'GET',
   });
-  console.log({ userData });
+  console.log({ userData }, 'Respuesta Back');
   return userData.data;
 }
 
