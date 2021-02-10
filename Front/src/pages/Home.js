@@ -6,14 +6,15 @@ import usuario from '../image/usuario.png'
 import empresa from '../image/empresa.png'
 import sitioweb from '../image/sitioweb.png'
 import empleado from '../image/empleado.png'
-import SearchHookForm from "../components/buscador/SearchHookForm";
+import SearchHook from "../components/buscador/SearchHook";
+import '../css/Home.css'
 
 function Home() {
     return (
         <div>
             <div className='pagina'>
                 <Navigation></Navigation>
-                <SearchHookForm></SearchHookForm>
+                <SearchHook></SearchHook>
                 <main className='context'>
                     <TextRight img={sitioweb} titulo='Sitio web'></TextRight>
                     <TextLeft img={usuario} titulo='Usuario'></TextLeft>

@@ -1,7 +1,11 @@
 import { useLocation } from 'react-router-dom';
 
-function useQuery() {
+function useQuerySearch() {
     return new URLSearchParams(useLocation().search);
 }
 
-export default useQuery;
+function useQueryEmpresaInfo() {
+    return new URLSearchParams(useLocation().getEmpresaInfo);
+}
+
+export { useQuerySearch, useQueryEmpresaInfo }

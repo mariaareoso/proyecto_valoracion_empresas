@@ -1,5 +1,5 @@
 import Login from "./login/Login";
-import PopUp from "../Modal"
+import PopUp from "../Modal/Modal"
 import './Navigation.css'
 import { useHistory } from 'react-router'
 

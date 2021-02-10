@@ -7,10 +7,10 @@ async function getListEmpresa(nombre_empresa, sede) {
   let query;
   let empresas;
   if (!nombre_empresa && !sede) {
-    query = 'SELECT idempresa, nombre_empresa, sede, bio,link FROM empresa';
+    query = 'SELECT DISTINCT e.idempresa, e.nombre_empresa, e.sede, e.bio,e.link, (ROUND((a.accesibilidad + a.ambiente_de_trabajo + a.sueldos + a.posibilidad_de_ascenso + a.conciliacion + a.estabilidad) /6)) as valoracion_total FROM empresa e JOIN aspecto a ON e.idempresa = a.idempresa';
     [empresas] = await pool.query(query);
   } else {
-    query = 'SELECT idempresa, nombre_empresa, sede, bio,link FROM empresa WHERE nombre_empresa LIKE ? OR sede LIKE ?';
+    query = 'SELECT DISTINCT e.idempresa, e.nombre_empresa, e.sede, e.bio,e.link, (ROUND((a.accesibilidad + a.ambiente_de_trabajo + a.sueldos + a.posibilidad_de_ascenso + a.conciliacion + a.estabilidad) /6)) as valoracion_total FROM empresa e JOIN aspecto a ON e.idempresa = a.idempresa WHERE nombre_empresa LIKE ? OR sede LIKE ?';
     [empresas] = await pool.query(query, [`%${nombre_empresa}%`, `%${sede}%`]);
   }
   return empresas;

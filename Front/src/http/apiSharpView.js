@@ -8,7 +8,6 @@ async function fetchApi(path, { body, method }) {
   }
   const request = await fetch(`${apiUrl}${path}`, { headers: headers, method: method, body: JSON.stringify(body) });
   const json = await request.json();
-  console.log('request', request, json);
   return json;
 }
 
@@ -25,19 +24,17 @@ async function register(email, password) {
   });
 }
 
-async function addJob(idempresa, puesto, fecI, fecF) {
-  await fetchApi('/users/addjob', {
-    method: 'POST',
-    body: { idempresa, puesto, fecI, fecF },
-  });
-}
-
 async function search(textoABuscar) {
   const userData = await fetchApi(`/resultadoBusqueda/?nombre_empresa=${textoABuscar}&sede=${textoABuscar}`, {
     method: 'GET',
   });
-  console.log({ userData }, 'Respuesta Back');
   return userData.data;
+}
+
+async function getEmpresaInfo(empresaid) {
+  const empresaData = await fetchApi(`/empresainfo/${empresaid}`, { method: 'GET' });
+  return { empresaData };
+
 }
 
 async function getUserInfo(userId) {
@@ -45,4 +42,4 @@ async function getUserInfo(userId) {
   return userData.data;
 }
 
-export { login, register, addJob, getUserInfo, search };
+export { login, register, getEmpresaInfo, getUserInfo, search };
