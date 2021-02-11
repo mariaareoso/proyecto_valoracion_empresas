@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { search } from '../http/apiSharpView';
-import Navigation from "../components/home/Navigation";
+import NavigationLogin from '../components/home/NavigationLogin';
 import Footer from "../components/home/Footer";
 import EmpresaList from '../components/buscador/EmpresaList';
 import { useQuerySearch } from '../shared/hooks/useQuery';
@@ -24,7 +24,7 @@ function EmpresasList() {
     return (
         <div>
             <div className='pagina'>
-                <Navigation></Navigation>
+                <NavigationLogin></NavigationLogin>
                 <main className='context'>
                     <EmpresaList empresas={empresas} />
                 </main>

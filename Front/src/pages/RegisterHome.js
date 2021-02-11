@@ -1,4 +1,4 @@
-import NavigationLogin from "../components/home/NavigationLogin";
+import NavigationRegister from "../components/home/NavigationRegister";
 import TextLeft from "../components/home/TextLeft";
 import TextRight from "../components/home/TextRight";
 import Footer from "../components/home/Footer";
@@ -13,7 +13,7 @@ function Home() {
     return (
         <div>
             <div className='pagina'>
-                <NavigationLogin></NavigationLogin>
+                <NavigationRegister></NavigationRegister>
                 <SearchHook></SearchHook>
                 <main className='context'>
                     <TextRight img={sitioweb} titulo='Sitio web'></TextRight>

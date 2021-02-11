@@ -22,18 +22,18 @@ function AuthProvider({ children }) {
       setUserData(tokenObject);
       setUserLoged(true);
       console.log(loginData);
-      history.push('/');
+      history.push('/homeEmpleado');
     }
   };
 
-  const signUp = async (email, password) => {
-    const message = await register(email, password);
+  const signUp = async (email, password, repeatPassword, empleado, empresa) => {
+    const message = await register(email, password, repeatPassword, empleado, empresa);
     return message;
   };
 
   const logOut = () => {
     localStorage.removeItem('token');
-    history.push('/login');
+    history.push('/');
     setUserData(null);
     setUserLoged(false);
   };

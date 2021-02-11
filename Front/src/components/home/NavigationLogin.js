@@ -1,18 +1,17 @@
-import Login from "./login/Login";
-import PopUp from "../Modal/Modal"
-import './Navigation.css'
+import Modal from '../Modal/Rodal'
 import { useHistory } from 'react-router'
+import './Navigation.css'
 
-function Navigation() {
+function NavigationLogin() {
     const history = useHistory();
     return (
         <section className='navegation'>
             <p className='logo' onClick={() => { history.push('/') }}>Sharp View</p>
             <div className='PopUp' >
-                <PopUp><Login /></PopUp>
+                <Modal />
             </div>
         </section>
     )
 }
 
-export default Navigation
+export default NavigationLogin

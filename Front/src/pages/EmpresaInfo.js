@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { InfoEmpresaMenu } from '../components/InfoEmpresa/InfoEmpresaMenu';
+import Footer from '../components/home/Footer';
+import NavigationLogin from '../components/home/NavigationLogin';
+import { InfoEmpresa } from '../components/InfoEmpresa/InfoEmpresaMenu';
 import { getEmpresaInfo } from '../http/apiSharpView';
 
 function EmpresaInfo() {
     const params = useParams();
-    const [empresa, setEmpresa] = useState({});
+    const [empresa, setEmpresa] = useState(null);
 
     useEffect(() => {
         const infoEmpresa = async () => {
@@ -14,14 +16,19 @@ function EmpresaInfo() {
         infoEmpresa();
     }, [params.idempresa])
 
-    console.log(empresa, 'punto 1');
 
+    if (!empresa) return <div>Cargando...</div>;
+
+    console.log(empresa, 'punto 1');
 
     return (
         <section>
             <div>
-                <h1>ID: {params.idempresa} </h1>
-                <InfoEmpresaMenu empresa={empresa} ></InfoEmpresaMenu>
+                <NavigationLogin></NavigationLogin>
+                <InfoEmpresa empresa={empresa} ></InfoEmpresa>
+            </div>
+            <div>
+                <Footer></Footer>
             </div>
         </section>
     );

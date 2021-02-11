@@ -3,6 +3,9 @@ import { AuthProvider } from './shared/context/authContext';
 import Home from './pages/Home';
 import EmpresasList from './pages/EmpresasList';
 import EmpresaInfo from './pages/EmpresaInfo';
+import RegisterHome from './pages/RegisterHome';
+import HomeEmpleado from './pages/HomeEmpleado';
+
 
 
 function App() {
@@ -13,11 +16,17 @@ function App() {
           <Route exact path="/">
             <Home></Home>
           </Route>
+          <Route exact path="/register">
+            <RegisterHome></RegisterHome>
+          </Route>
           <Route path="/empresaslist">
             <EmpresasList></EmpresasList>
           </Route>
           <Route path="/empresainfo/:idempresa">
             <EmpresaInfo></EmpresaInfo>
+          </Route>
+          <Route exact path="/homeEmpleado">
+            <HomeEmpleado></HomeEmpleado>
           </Route>
         </AuthProvider>
       </Switch>
@@ -26,3 +35,4 @@ function App() {
 }
 
 export default App;
+

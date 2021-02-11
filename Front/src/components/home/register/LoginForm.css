@@ -1,7 +1,3 @@
-.loginForm{
-    background-color: aquamarine;
-}
-
 .login{
     display: flex;
     flex-direction: column;

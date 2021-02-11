@@ -17,10 +17,10 @@ async function login(email, password) {
   return token;
 }
 
-async function register(email, password) {
+async function register(email, password, repeatPassword, empleado, empresa) {
   await fetchApi('/users/register', {
     method: 'POST',
-    body: { email, password },
+    body: { email, password, repeatPassword, empleado, empresa },
   });
 }
 

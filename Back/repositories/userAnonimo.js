@@ -21,16 +21,16 @@ async function getEmpresa(idempresa) {
   let query;
   let empresa;
 
-  const queryEmpresa = 'SELECT e.nombre_empresa, e.sede, e.bio, e.link FROM empresa e WHERE e.idempresa= ?';
+  const queryEmpresa = 'SELECT e.nombre_empresa, e.sede, e.bio, e.link, e.web FROM empresa e WHERE e.idempresa= ?';
   const datosEmpresa = await pool.query(queryEmpresa, [idempresa]);
-
-  const queryOpinionesEmpresa =
-    'SELECT accesibilidad, ambiente_de_trabajo, sueldos, opinion, posibilidad_de_ascenso, conciliacion, estabilidad FROM aspecto WHERE idempresa= ?';
+  const queryOpinionesEmpresa = 'SELECT idusuario, accesibilidad, ambiente_de_trabajo, sueldos, opinion, posibilidad_de_ascenso, conciliacion, estabilidad FROM aspecto WHERE idempresa= ?';
   const opinionesEmpresa = await pool.query(queryOpinionesEmpresa, [idempresa]);
-
+  const queryvaloracionesPorAspectoEmpresa = 'SELECT round(avg(accesibilidad)/COUNT(accesibilidad)) AS Accesibilidad, round(avg(ambiente_de_trabajo)/COUNT(ambiente_de_trabajo)) AS Ambiente_de_trabajo, round(avg(sueldos)/COUNT(sueldos)) AS Sueldo, round(avg(posibilidad_de_ascenso)/COUNT(posibilidad_de_ascenso)) AS Posibilidad_de_ascenso, round(avg(conciliacion)/COUNT(conciliacion)) AS Conciliacion, round(avg(estabilidad)/COUNT(estabilidad)) AS Estabilidad FROM aspecto WHERE idempresa= ?'
+  const valoracionesPorAspectoEmpresa = await pool.query(queryvaloracionesPorAspectoEmpresa, [idempresa]);
   return {
     datos: datosEmpresa[0][0],
     opiniones: opinionesEmpresa[0],
+    valoraciones: valoracionesPorAspectoEmpresa[0]
   };
 }
 
