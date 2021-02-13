@@ -1,19 +1,19 @@
-import NavigationLogin from "../components/home/NavigationLogin";
-import TextLeft from "../components/home/TextLeft";
-import TextRight from "../components/home/TextRight";
-import Footer from "../components/home/Footer";
+import Footer from "../components/Footer";
+import TextLeft from "../components/TextLeft";
+import TextRight from "../components/TextRight";
+import SearchHook from "../components/SearchHook";
+import Navigation from "../components/Navigation";
 import usuario from '../image/usuario.png'
 import empresa from '../image/empresa.png'
 import sitioweb from '../image/sitioweb.png'
 import empleado from '../image/empleado.png'
-import SearchHook from "../components/buscador/SearchHook";
 import '../css/Home.css'
 
 function Home() {
     return (
         <div>
             <div className='pagina'>
-                <NavigationLogin></NavigationLogin>
+                <Navigation></Navigation>
                 <SearchHook></SearchHook>
                 <main className='context'>
                     <TextRight img={sitioweb} titulo='Sitio web'></TextRight>

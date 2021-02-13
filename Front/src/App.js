@@ -1,10 +1,11 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { AuthProvider } from './shared/context/authContext';
+import PrivateRoute from './components/PrivateRoute';
 import Home from './pages/Home';
 import EmpresasList from './pages/EmpresasList';
 import EmpresaInfo from './pages/EmpresaInfo';
 import RegisterHome from './pages/RegisterHome';
-import HomeEmpleado from './pages/HomeEmpleado';
+import PerfilUser from './pages/PerfilUsuario';
 
 
 
@@ -25,8 +26,10 @@ function App() {
           <Route path="/empresainfo/:idempresa">
             <EmpresaInfo></EmpresaInfo>
           </Route>
-          <Route exact path="/homeEmpleado">
-            <HomeEmpleado></HomeEmpleado>
+          <Route exact path="/users/iduser">
+            <PrivateRoute>
+              <PerfilUser></PerfilUser>
+            </PrivateRoute>
           </Route>
         </AuthProvider>
       </Switch>

@@ -1,12 +1,12 @@
-import NavigationRegister from "../components/home/NavigationRegister";
-import TextLeft from "../components/home/TextLeft";
-import TextRight from "../components/home/TextRight";
-import Footer from "../components/home/Footer";
+import NavigationRegister from "../components/NavigationRegister";
+import TextLeft from "../components/TextLeft";
+import TextRight from "../components/TextRight";
+import Footer from "../components/Footer";
 import usuario from '../image/usuario.png'
 import empresa from '../image/empresa.png'
 import sitioweb from '../image/sitioweb.png'
 import empleado from '../image/empleado.png'
-import SearchHook from "../components/buscador/SearchHook";
+import SearchHook from "../components/SearchHook";
 import '../css/Home.css'
 
 function Home() {

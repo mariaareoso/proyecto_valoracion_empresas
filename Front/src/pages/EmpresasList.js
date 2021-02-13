@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { search } from '../http/apiSharpView';
-import NavigationLogin from '../components/home/NavigationLogin';
-import Footer from "../components/home/Footer";
-import EmpresaList from '../components/buscador/EmpresaList';
+import Navigation from '../components/Navigation';
+import Footer from "../components/Footer";
+import EmpresaList from '../components/EmpresaList';
 import { useQuerySearch } from '../shared/hooks/useQuery';
+// import SearchHook from '../components/SearchHook';
+// import StarRating from '../components/StarRating';
 
 
 function EmpresasList() {
@@ -21,10 +23,11 @@ function EmpresasList() {
 
     console.log(empresas, 'empresasListas');
 
+
     return (
         <div>
             <div className='pagina'>
-                <NavigationLogin></NavigationLogin>
+                <Navigation></Navigation>
                 <main className='context'>
                     <EmpresaList empresas={empresas} />
                 </main>
