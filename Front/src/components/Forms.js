@@ -15,6 +15,8 @@ function LoginForm() {
     console.log('errors', errors);
 
     const onLogin = async (data) => {
+
+
         try {
             await signIn(data.email, data.password);
             if (errorMessage.length > 0) {
@@ -42,35 +44,37 @@ function LoginForm() {
 function RegisterForm() {
     const { register, handleSubmit, reset } = useForm();
     const [errorMessage, setErrorMessage] = useState('');
+    const [isEmpleado, setIsEmpleado] = useState(false)
+    const [isEmpresa, setIsEmpresa] = useState(false)
     const { signUp } = useAuth();
 
-    const onLogin = async (data) => {
-        console.log(data);
+    const resgiterUser = async (data) => {
+        console.log('data', data);
         try {
-            await signUp(data.email, data.password, data.repeatPassword, data.empleado, data.empresa);
-            if (errorMessage.length > 0) {
-                setErrorMessage('');
-            }
+            const response = await signUp(data.email, data.password, data.repeatPassword, isEmpleado ? 1 : 0, isEmpresa ? 1 : 0);
+            console.log('onLogin', { response });
 
         } catch (error) {
-            setErrorMessage(error);
+            console.log('onLogin error', { error });
+
+            setErrorMessage(error.message);
         }
 
         reset();
 
     }
-
+    console.log(isEmpleado);
     return (
-        <form className='login' onSubmit={handleSubmit(onLogin)}>
+        <form className='login' onSubmit={handleSubmit(resgiterUser)}>
             <h2 className='tituloLogin'>Registro de usuario</h2>
             <p className='textoLogin' >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur id tellus neque. Aenean eget finibus felis.</p>
             <input className='emailLogin' id="email" name="email" placeholder='Email' ref={register({ required: true })}></input>
             <input className='passwordLogin' id="password" name="password" type="password" placeholder='Password' ref={register({ required: true })}></input>
             <input className='passwordLogin' id="repeatPassword" name="repeatPassword" type="password" placeholder='Repetir password' ref={register({ required: true })}></input>
             <label htmlFor="empleado">Empleado</label>
-            <input id='empleado' name='empleado' type='checkbox' value={1} ref={register}></input>
+            <input id='empleado' name='empleado' type='checkbox' value={isEmpleado} onChange={() => { setIsEmpleado(!isEmpleado) }} ref={register}></input>
             <label htmlFor="empresa">Empresa</label>
-            <input id='empresa' name='empresa' type='checkbox' value={1} ref={register}></input>
+            <input id='empresa' name='empresa' type='checkbox' value={isEmpresa} onChange={() => { setIsEmpresa(!isEmpresa) }} ref={register}></input>
 
             <input className='bottomLogin' type="submit" value='Registrarse' />
 
@@ -82,15 +86,19 @@ function RegisterForm() {
     );
 }
 
-function AddJobForm() {
+function AddJobForm(props) {
     const { register, handleSubmit, reset } = useForm();
     const { userData } = useAuth();
 
+    console.log(props);
+
     const Job = async (data) => {
         await addJob(userData.id, data.puesto, data.fecI, data.fecF);
-        // Falta el idE que obtenemos de cada empresa
         reset();
     };
+
+
+
     return (
         <form className='login' onSubmit={handleSubmit(Job)}>
             <h2 className='tituloLogin'>Añadir puesto</h2>

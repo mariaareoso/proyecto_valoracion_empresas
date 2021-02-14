@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
+const { role } = require('../helpers');
 const { JWT_SECRET } = process.env;
+
 
 function validateAuth(req, res, next) {
   try {
@@ -7,8 +9,8 @@ function validateAuth(req, res, next) {
     const decodedToken = jwt.verify(token, JWT_SECRET);
     console.log(decodedToken);
     const { id } = decodedToken;
-
     req.auth = { id };
+
     next();
   } catch (error) {
     console.log(error);

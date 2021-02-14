@@ -21,7 +21,7 @@ async function getEmpresa(idempresa) {
   let query;
   let empresa;
 
-  const queryEmpresa = 'SELECT e.nombre_empresa, e.sede, e.bio, e.link, e.web FROM empresa e WHERE e.idempresa= ?';
+  const queryEmpresa = 'SELECT e.idempresa, e.nombre_empresa, e.sede, e.bio, e.link, e.web FROM empresa e WHERE e.idempresa= ?';
   const datosEmpresa = await pool.query(queryEmpresa, [idempresa]);
   const queryOpinionesEmpresa = 'SELECT idusuario, accesibilidad, ambiente_de_trabajo, sueldos, opinion, posibilidad_de_ascenso, conciliacion, estabilidad FROM aspecto WHERE idempresa= ?';
   const opinionesEmpresa = await pool.query(queryOpinionesEmpresa, [idempresa]);

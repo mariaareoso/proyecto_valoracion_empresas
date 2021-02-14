@@ -2,7 +2,6 @@ import '../css/Text.css'
 
 function TextLeft(props) {
     const { titulo, img } = props
-    console.log(img)
     return (
         <div className='contenido'>
             <div >

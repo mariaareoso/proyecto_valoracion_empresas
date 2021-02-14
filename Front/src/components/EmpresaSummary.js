@@ -1,7 +1,5 @@
 import { useHistory } from 'react-router';
-import { AddJobPopUP } from './Modal';
 import StarValoracion from './StarValoracion';
-import ShowToLoggedInUsers from './ShowToLoggedInUsers';
 
 import '../css/EmpresasList.css'
 
@@ -21,10 +19,7 @@ function EmpresaSummary(props) {
         <StarValoracion>{empresa.valoracion_total}</StarValoracion>
         <p className='empresaBio'>{empresa.bio}</p>
       </section>
-      <input className='boton' onClick={onClick} value='Más info' />
-      <ShowToLoggedInUsers>
-        <AddJobPopUP />
-      </ShowToLoggedInUsers>
+      <input className='boton' onClick={onClick} readOnly value='Más info' />
     </article>
   );
 }

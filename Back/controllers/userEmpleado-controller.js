@@ -139,6 +139,9 @@ async function getIdUser(req, res) {
     const userId = req.auth.id;
 
     const user = await empleadoRepository.getIdUser(userId);
+    // const state = await empleadoRepository.getStateUser(userId);
+
+    // console.log(state);
 
     res.send(user);
   } catch (err) {
@@ -153,17 +156,19 @@ async function getIdUser(req, res) {
 
 async function updateInfoUser(req, res) {
   try {
-    const { nombre, pais, ciudad, email, password  } = req.body;
+    const { nombre, primerApellido, segundoApellido, pais, ciudad, email, password } = req.body;
 
     const schema = Joi.object({
       nombre: Joi.string().required(),
+      primerApellido: Joi.string().required(),
+      segundoApellido: Joi.string().required(),
       pais: Joi.string(),
       ciudad: Joi.string(),
-      email: Joi.string().email().required(),
+      email: Joi.string().email(),
       password: Joi.string().required(),
     });
 
-    await schema.validateAsync({ nombre, pais, ciudad, email, password });
+    await schema.validateAsync({ nombre, primerApellido, segundoApellido, pais, ciudad, email, password });
 
     let link = null;
     if (req.files && req.files.photo) {
@@ -176,7 +181,9 @@ async function updateInfoUser(req, res) {
 
     const passwordHash = await bcrypt.hash(password, 10);
 
-    const userInfo = await empleadoRepository.updateUser(nombre, pais, ciudad, link, email, passwordHash, req.auth.id);
+    const userInfo = await empleadoRepository.updateUser(nombre, primerApellido, segundoApellido, pais, ciudad, email, passwordHash, req.auth.id, link);
+
+    console.log('userInfo:', req.body);
 
     res.send(userInfo);
   } catch (err) {
@@ -217,7 +224,6 @@ async function deleteJob(req, res) {
 async function createReview(req, res) {
   try {
     const userId = req.auth.id;
-    console.log(userId);
 
     const {
       opinion,

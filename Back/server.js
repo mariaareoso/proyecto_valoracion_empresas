@@ -29,7 +29,7 @@ app.post('/users/register', empleadoController.register);
 app.post('/users/login', empleadoController.login);
 app.put('/users/addjob', validateAuth, empleadoController.updateJob);
 app.get('/users/iduser', validateAuth, empleadoController.getIdUser);
-app.put('/users/udpdateinfouser', validateAuth, empleadoController.updateInfoUser);
+app.post('/users/udpdateinfouser', validateAuth, empleadoController.updateInfoUser);
 app.delete('/users/deleteJob', validateAuth, empleadoController.deleteJob);
 app.put('/users/valorar/:idempresa', validateAuth, empleadoController.createReview);
 

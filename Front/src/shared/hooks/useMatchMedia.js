@@ -12,7 +12,6 @@ export default function useMatchMedia(mediaQuery) {
     mql.addEventListener('change', screenTest);
 
     return () => {
-      console.log('Quitamos listener');
       mql.removeEventListener('change', screenTest);
     };
   }, [mediaQuery]);

@@ -1,4 +1,4 @@
-const apiUrl = 'http://localhost:9000';
+const apiUrl = 'http://localhost:8000';
 
 async function fetchApi(path, { body, method }) {
   const token = localStorage.getItem('token');
@@ -6,8 +6,11 @@ async function fetchApi(path, { body, method }) {
   if (token) {
     headers.append('Authorization', token);
   }
-  const request = await fetch(`${apiUrl}${path}`, { headers: headers, method: method, body: JSON.stringify(body) });
-  const json = await request.json();
+  const response = await fetch(`${apiUrl}${path}`, { headers: headers, method: method, body: JSON.stringify(body) });
+  const json = await response.json();
+  if (response.status >= 400) {
+    throw new Error(json.error);
+  }
   return json;
 }
 
@@ -25,7 +28,7 @@ async function login(email, password) {
 }
 
 async function register(email, password, repeatPassword, empleado, empresa) {
-  await fetchApi('/users/register', { method: 'POST', body: { email, password, repeatPassword, empleado, empresa } });
+  return await fetchApi('/users/register', { method: 'POST', body: { email, password, repeatPassword, empleado, empresa } });
 }
 
 // User Empleado 
@@ -35,12 +38,12 @@ async function getUserInfo(iduser) {
   return userData;
 }
 
-async function updateInfoUser(nombre, pais, ciudad, email, password) {
-  await fetchApi('/users/udpdateinfouser', { method: 'PUT', body: { nombre, pais, ciudad, email, password } });
+async function updateInfoUser(nombre, primerApellido, segundoApellido, pais, ciudad, email, password) {
+  return await fetchApi('/users/udpdateinfouser', { method: 'POST', body: { nombre, primerApellido, segundoApellido, pais, ciudad, email, password } });
 }
 
 async function addJob(idE, id, puesto, fecI, fecF) {
-  await fetchApi('/users/', { method: 'PUT', body: { idE, id, puesto, fecI, fecF } });
+  return await fetchApi('/users/', { method: 'POST', body: { idE, id, puesto, fecI, fecF } });
 }
 
 // User Empresa 

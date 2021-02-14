@@ -1,4 +1,5 @@
 require("dotenv").config();
+const { empleadoRepository } = require('./repositories/userEmpleado');
 
 const crypto = require("crypto");
 const sharp = require("sharp");
@@ -23,5 +24,6 @@ async function processAndSavePhoto(uploadedImage) {
 }
 
 module.exports = {
-  processAndSavePhoto,
+  processAndSavePhoto
 };
+

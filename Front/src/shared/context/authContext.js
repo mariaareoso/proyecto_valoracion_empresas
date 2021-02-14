@@ -35,8 +35,9 @@ export function AuthProvider({ children }) {
   };
 
 
-  const signUp = async (email, password) => {
-    const message = await register();
+  const signUp = async (email, password, repeatPassword, empleado, empresa) => {
+    const message = await register(email, password, repeatPassword, empleado, empresa);
+    console.log('signUp', { message });
     return message;
   };
 

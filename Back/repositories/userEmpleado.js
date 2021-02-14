@@ -14,7 +14,7 @@ async function getUserByEmail(email) {
 async function getIdUser(idUser) {
   const pool = await database.getPool();
   const query =
-    'SELECT u.nombre, u.pais, u.ciudad, u.link, e.nombre_empresa,e.sede,a.puesto, a.fecha_inicio, a.fecha_fin, u.email,u.clave,a.validacion FROM usuario AS u left JOIN aspecto AS a ON a.idusuario=u.idusuario JOIN empresa AS e ON a.idempresa=e.idempresa WHERE u.idusuario= ?';
+    'SELECT u.nombre, u.primerApellido, u.segundoApellido, u.pais, u.ciudad, u.link, u.empleado, u.empresa, e.nombre_empresa,e.paisEmpresa, e.sede,a.puesto, a.fecha_inicio, a.fecha_fin, u.email,u.clave,a.validacion FROM usuario AS u left JOIN aspecto AS a ON a.idusuario=u.idusuario JOIN empresa AS e ON a.idempresa=e.idempresa WHERE u.idusuario= ?';
   const [User] = await pool.query(query, [idUser]);
 
   return User;
@@ -28,10 +28,10 @@ async function createUser(email, password, empresa, empleado) {
   return created.insertId;
 }
 
-async function updateUser(nombre, pais, ciudad, link, email, clave, id) {
+async function updateUser(nombre, primerApellido, segundoApellido, pais, ciudad, link, email, clave, id) {
   const pool = await database.getPool();
-  const updateQuery = 'UPDATE usuario SET nombre = ?, pais = ?, ciudad = ?, link=?,  email = ?, clave = ?  WHERE idusuario = ?';
-  await pool.query(updateQuery, [nombre, pais, ciudad, link, email, clave, id]);
+  const updateQuery = 'UPDATE usuario SET nombre = ?, primerApellido =?, segundoApellido=?,  pais = ?, ciudad = ?, link=?,  email = ?, clave = ?  WHERE idusuario = ?';
+  await pool.query(updateQuery, [nombre, primerApellido, segundoApellido, pais, ciudad, link, email, clave, id]);
 
   return true;
 }
@@ -66,14 +66,6 @@ async function getListEmpresa(nombre, sede) {
   const [empresas] = await pool.query(query, [nombre, sede]);
 
   return empresas;
-}
-
-async function getStateUser(id) {
-  const pool = await database.getPool();
-  const Query = 'SELECT empresa, empleado FROM usuario WHERE idusuario=?';
-  const [estado] = await pool.query(Query, [id]);
-
-  return estado[0];
 }
 
 async function creatreJob(idE, id, puesto, fecI, fecF) {
@@ -148,7 +140,6 @@ module.exports = {
   getAspectVal,
   deleteAspect,
   getListEmpresa,
-  getStateUser,
   creatreJob,
   getEmpresa,
   getValidacion,

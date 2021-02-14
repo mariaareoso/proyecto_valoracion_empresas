@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getUserInfo } from "../http/apiSharpView";
+import { getUserInfo, updateInfoUser } from "../http/apiSharpView";
 import useAuth from "../shared/hooks/useAuth";
 import Navigation from "../components/Navigation"
 import PerfilEmpleado from "../components/PerfilEmpleado";
@@ -22,7 +22,7 @@ function PerfilUser() {
             <Navigation></Navigation>
             <main>
                 {usuario.map((item) => {
-                    return < PerfilEmpleado key={item.nombre} usuario={item} />
+                    return < PerfilEmpleado key={item.nombre} usuario={item} onSubmit={updateInfoUser} />
                 })
                 }
             </main>

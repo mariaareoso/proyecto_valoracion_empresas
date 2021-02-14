@@ -1,4 +1,4 @@
-import { Dropdown } from 'antd';
+import Dropdown from 'antd/lib/dropdown';
 import React from 'react';
 
 import Menu from './menu';
@@ -9,7 +9,7 @@ import '../css/Avatar.css';
 
 function AvatarMenu() {
     return (
-        < Dropdown className="action" overlay={Menu}>
+        < Dropdown className="action" overlay={<Menu />}>
             <div onClick={e => e.preventDefault()}>
                 <AvatarImage />
             </div>
