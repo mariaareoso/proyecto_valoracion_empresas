@@ -9,10 +9,13 @@ const { anonimoController, empleadoController, empresaController } = require('./
 const validateAuth = require('./middlewares/validate-auth');
 
 const { SERVER_PORT } = process.env;
-const cors = require('cors')
-
+const cors = require('cors');
+const { join } = require('path');
 
 const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }))
 
 app.use(bodyParser.json());
 app.use(cors())
@@ -29,9 +32,11 @@ app.post('/users/register', empleadoController.register);
 app.post('/users/login', empleadoController.login);
 app.put('/users/addjob', validateAuth, empleadoController.updateJob);
 app.get('/users/iduser', validateAuth, empleadoController.getIdUser);
+app.get('/users/rol', validateAuth, empleadoController.getRol);
 app.post('/users/udpdateinfouser', validateAuth, empleadoController.updateInfoUser);
 app.delete('/users/deleteJob', validateAuth, empleadoController.deleteJob);
 app.put('/users/valorar/:idempresa', validateAuth, empleadoController.createReview);
+app.put('/users/photo', validateAuth, empleadoController.updatePhoto);
 
 // empresaUsers
 

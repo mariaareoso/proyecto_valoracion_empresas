@@ -4,31 +4,24 @@ const Joi = require('joi');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const {
-  processAndSavePhoto
-} = require("../helpers");
-
 const { empleadoRepository, empresaRepository } = require('../repositories');
-
-const { query } = require('express');
 
 async function addEmpresa(req, res) {
   try {
-    const { nombre_empresa, sede, link, bio } = req.body;
+    const { nombre_empresa, sede, photo, bio } = req.body;
 
     const schema = Joi.object({
       nombre_empresa: Joi.string(),
       sede: Joi.string(),
-      link: Joi.string(),
       bio: Joi.string().min(5).max(150),
     });
 
-    await schema.validateAsync({ nombre_empresa, sede, link, bio });
+    await schema.validateAsync({ nombre_empresa, sede, bio });
 
     const stateUser = await empleadoRepository.getStateUser(req.auth.id);
 
     if (stateUser.empresa === 1) {
-      const empresa = await empresaRepository.creatreEmpresa(nombre_empresa, sede, link, bio, req.auth.id);
+      const empresa = await empresaRepository.creatreEmpresa(nombre_empresa, sede, bio, req.auth.id);
 
       return res.send(empresa);
     } else {
@@ -86,7 +79,7 @@ async function getEmpresaSetInfo(req, res) {
 
 async function updateSetEmpresa(req, res) {
   try {
-    const { email, password, link } = req.body;
+    const { email, password, photo } = req.body;
 
     const schema = Joi.object({
       email: Joi.string().email(),
@@ -102,16 +95,8 @@ async function updateSetEmpresa(req, res) {
       error.status = 409;
       throw error;
     } else {
-      let link = null;
-      if (req.files && req.files.photo) {
-        try {
-          link = await processAndSavePhoto(req.files.photo);
-        } catch (error) {
-          throw generateError("Can not process upload image. Try again later.");
-        }
-      }
       const passwordHash = await bcrypt.hash(password, 10);
-      const setEmpresa = await empresaRepository.updateSetEmpresa(email, passwordHash, link, req.auth.id);
+      const setEmpresa = await empresaRepository.updateSetEmpresa(email, passwordHash, req.auth.id);
       return res.send(setEmpresa);
     }
   } catch (err) {
@@ -126,22 +111,21 @@ async function updateSetEmpresa(req, res) {
 
 async function updateEmpresa(req, res) {
   try {
-    const { sede, bio, link } = req.body;
+    const { sede, bio, photo } = req.body;
 
     const schema = Joi.object({
       sede: Joi.string().required(),
-      bio: Joi.string().required(),
-      link: Joi.string().required(),
+      bio: Joi.string().required()
     });
 
-    await schema.validateAsync({ sede, bio, link });
+    await schema.validateAsync({ sede, bio });
 
     const empresaId = req.params.idempresa;
 
     const idusuario = await empresaRepository.relationIduserIdempresa(empresaId);
 
     if (req.auth.id === idusuario[0].idusuario) {
-      const cambiosEmpresa = await empresaRepository.updateEmpresa(sede, bio, link, empresaId, req.auth.id);
+      await empresaRepository.updateEmpresa(sede, bio, empresaId, req.auth.id);
       return res.send({ message: 'Se han modificado los datos de la empresa' });
     } else {
       return res.send('Usuario no valido');

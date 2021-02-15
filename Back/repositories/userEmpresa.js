@@ -2,10 +2,10 @@
 
 const database = require('../infrastructure/database');
 
-async function creatreEmpresa(nombre_empresa, sede, link, bio, idusuario) {
+async function creatreEmpresa(nombre_empresa, sede, photo, bio, idusuario) {
   const pool = await database.getPool();
-  const Query = 'INSERT INTO empresa (nombre_empresa, sede, link, bio, idusuario) VALUES(?,?,?,?,?)';
-  await pool.query(Query, [nombre_empresa, sede, link, bio, idusuario]);
+  const Query = 'INSERT INTO empresa (nombre_empresa, sede, photo, bio, idusuario) VALUES(?,?,?,?,?)';
+  await pool.query(Query, [nombre_empresa, sede, photo, bio, idusuario]);
 
   return true;
 }
@@ -20,16 +20,16 @@ async function deleteEmpresa(idusuario, idempresa) {
 
 async function getSetEmpresa(idUser) {
   const pool = await database.getPool();
-  const query = 'SELECT email, clave, link FROM usuario WHERE idusuario = ?';
+  const query = 'SELECT email, clave, photo FROM usuario WHERE idusuario = ?';
   const [Set] = await pool.query(query, [idUser]);
 
   return Set;
 }
 
-async function updateSetEmpresa(email, clave, link, id) {
+async function updateSetEmpresa(email, clave, photo, id) {
   const pool = await database.getPool();
-  const updateQuery = 'UPDATE usuario SET email = ?, clave = ?, link = ? WHERE idusuario = ?';
-  await pool.query(updateQuery, [email, clave, link, id]);
+  const updateQuery = 'UPDATE usuario SET email = ?, clave = ?, photo = ? WHERE idusuario = ?';
+  await pool.query(updateQuery, [email, clave, photo, id]);
 
   return true;
 }
@@ -37,16 +37,16 @@ async function updateSetEmpresa(email, clave, link, id) {
 async function getEmpresa(idempresa) {
   const pool = await database.getPool();
   const query =
-    'SELECT nombre_empresa, sede, bio,link, opinion, accesibilidad, ambiente_de_trabajo, sueldos, posibilidad_de_ascenso, conciliacion, estabilidad FROM empresa WHERE idempresa=?';
+    'SELECT nombre_empresa, sede, bio,photo, opinion, accesibilidad, ambiente_de_trabajo, sueldos, posibilidad_de_ascenso, conciliacion, estabilidad FROM empresa WHERE idempresa=?';
   const [empresa] = await pool.query(query, [idempresa]);
 
   return empresa;
 }
 
-async function updateEmpresa(sede, bio, link, idempresa, idusuario) {
+async function updateEmpresa(sede, bio, photo, idempresa, idusuario) {
   const pool = await database.getPool();
-  const updateQuery = 'UPDATE empresa SET sede = ?, bio = ?, link=? WHERE idempresa = ? AND idusuario =?';
-  await pool.query(updateQuery, [sede, bio, link, idempresa, idusuario]);
+  const updateQuery = 'UPDATE empresa SET sede = ?, bio = ?, photo=? WHERE idempresa = ? AND idusuario =?';
+  await pool.query(updateQuery, [sede, bio, photo, idempresa, idusuario]);
 
   return true;
 }
@@ -88,7 +88,6 @@ async function relationIduserIdempresa(idempresa) {
 
 async function uploadValidacion(idaspecto, idempresa, idpropietario) {
   const pool = await database.getPool();
-  //comprobar si el idpropietario es el usuario asociado con idempresa
 
   const propietarioQuery = 'SELECT idempresa from empresa WHERE idempresa=? AND idusuario=?';
   const propietarioCheck = await pool.query(propietarioQuery, [idempresa, idpropietario]);

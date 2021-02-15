@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router';
-import '../css/Buscador.css'
+import '../css/style.css'
 
 function SearchHook() {
   const { register, handleSubmit } = useForm();

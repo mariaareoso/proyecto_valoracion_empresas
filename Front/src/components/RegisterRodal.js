@@ -5,7 +5,6 @@ import useMatchMedia from '../shared/hooks/useMatchMedia';
 import Register from './Register';
 
 import 'rodal/lib/rodal.css';
-import '../css/Modal.css';
 
 const ResponsiveRodal = lazy(() => import('./ResponviseRodal'));
 

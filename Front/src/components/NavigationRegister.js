@@ -1,6 +1,5 @@
 import { useHistory } from 'react-router'
 import RegisterRodal from "./RegisterRodal";
-import '../css/Navigation.css'
 
 function NavigationRegister() {
     const history = useHistory();

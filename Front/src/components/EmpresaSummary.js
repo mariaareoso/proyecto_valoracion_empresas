@@ -1,7 +1,6 @@
 import { useHistory } from 'react-router';
 import StarValoracion from './StarValoracion';
-
-import '../css/EmpresasList.css'
+import '../css/style.css'
 
 function EmpresaSummary(props) {
   const history = useHistory();

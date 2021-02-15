@@ -1,13 +1,24 @@
-import '../css/Avatar.css'
-import userPhoto from '../image/userPhoto.jpg'
+import pirata from '../image/pirate.png'
+import empresa from '../image/bag-on-head.png'
 
-function AvatarImage(props) {
+import '../css/style.css'
+
+function AvatarImageUser(props) {
 
     return (
         <div className="profile">
-            <img src={userPhoto} alt='foto avatar' />
+            <img src={pirata} alt='foto avatar' />
         </div>
     )
 }
 
-export default AvatarImage
+function AvatarImageEmpresa(props) {
+
+    return (
+        <div className="profile">
+            <img src={empresa} alt='foto avatar' />
+        </div>
+    )
+}
+
+export { AvatarImageUser, AvatarImageEmpresa }

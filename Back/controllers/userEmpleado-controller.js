@@ -5,9 +5,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { MAILGUN_KEY, DOMAIN } = process.env;
 const mailgun = require('mailgun-js');
-const {
-  processAndSavePhoto
-} = require("../helpers");
+const fs = require('fs');
+const path = require('path')
 
 const { empleadoRepository } = require('../repositories');
 
@@ -44,7 +43,7 @@ async function register(req, res) {
       from: 'User <me@samples.mailgun.org>',
       to: email,
       subject: 'Hello',
-      text: 'Usuario registrado',
+      text: 'http://localhost:3000/',
     };
 
     mg.messages().send(data, function (error, body) {
@@ -115,9 +114,11 @@ async function updateJob(req, res) {
 
     await schema.validateAsync({ idE, puesto, fecI, fecF });
 
-    const stateUser = await empleadoRepository.getStateUser(req.auth.id);
+    const stateUser = await empleadoRepository.getRol(req.auth.id);
 
-    if (stateUser.empleado === 1) {
+    console.log(stateUser[0].empleado);
+
+    if (stateUser[0].empleado === 1) {
       const Job = await empleadoRepository.creatreJob(idE, req.auth.id, puesto, fecI, fecF);
 
       return res.send(Job);
@@ -139,11 +140,25 @@ async function getIdUser(req, res) {
     const userId = req.auth.id;
 
     const user = await empleadoRepository.getIdUser(userId);
-    // const state = await empleadoRepository.getStateUser(userId);
-
-    // console.log(state);
-
+    console.log(user, 'userEmpleado Back');
     res.send(user);
+  } catch (err) {
+    if (err.name === 'ValidationError') {
+      err.status = 400;
+    }
+    console.log(err);
+    res.status(err.status || 500);
+    res.send({ error: err.message });
+  }
+}
+
+async function getRol(req, res) {
+  try {
+    const userId = req.auth.id;
+
+    const rol = await empleadoRepository.getRol(userId);
+
+    res.send(rol);
   } catch (err) {
     if (err.name === 'ValidationError') {
       err.status = 400;
@@ -156,7 +171,7 @@ async function getIdUser(req, res) {
 
 async function updateInfoUser(req, res) {
   try {
-    const { nombre, primerApellido, segundoApellido, pais, ciudad, email, password } = req.body;
+    const { nombre, primerApellido, segundoApellido, pais, ciudad, photo, email, password, repeatPassword } = req.body;
 
     const schema = Joi.object({
       nombre: Joi.string().required(),
@@ -166,24 +181,15 @@ async function updateInfoUser(req, res) {
       ciudad: Joi.string(),
       email: Joi.string().email(),
       password: Joi.string().required(),
+      repeatPassword: Joi.ref('password'),
     });
 
-    await schema.validateAsync({ nombre, primerApellido, segundoApellido, pais, ciudad, email, password });
 
-    let link = null;
-    if (req.files && req.files.photo) {
-      try {
-        link = await processAndSavePhoto(req.files.photo);
-      } catch (error) {
-        throw generateError("Can not process upload image. Try again later.");
-      }
-    }
+    await schema.validateAsync({ nombre, primerApellido, segundoApellido, pais, ciudad, email, password, repeatPassword });
 
     const passwordHash = await bcrypt.hash(password, 10);
 
-    const userInfo = await empleadoRepository.updateUser(nombre, primerApellido, segundoApellido, pais, ciudad, email, passwordHash, req.auth.id, link);
-
-    console.log('userInfo:', req.body);
+    const userInfo = await empleadoRepository.updateUser(nombre, primerApellido, segundoApellido, pais, ciudad, photo, email, passwordHash, req.auth.id);
 
     res.send(userInfo);
   } catch (err) {
@@ -288,6 +294,22 @@ async function createReview(req, res) {
   }
 }
 
+async function updatePhoto(req, res) {
+  try {
+    const userInfo = await empleadoRepository.updatePhotoUser(photo, req.auth.id);
+
+    res.send(userInfo);
+  } catch (err) {
+    if (err.name === 'ValidationError') {
+      err.status = 400;
+    }
+    console.log(err);
+    res.status(err.status || 500);
+    res.send({ error: err.message });
+  }
+}
+
+
 module.exports = {
   register,
   login,
@@ -296,4 +318,6 @@ module.exports = {
   updateInfoUser,
   deleteJob,
   createReview,
-};
+  getRol,
+  updatePhoto,
+}

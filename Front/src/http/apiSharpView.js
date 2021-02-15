@@ -31,6 +31,11 @@ async function register(email, password, repeatPassword, empleado, empresa) {
   return await fetchApi('/users/register', { method: 'POST', body: { email, password, repeatPassword, empleado, empresa } });
 }
 
+async function getRol(iduser) {
+  const userData = await fetchApi(`/users/rol/`, { method: 'GET' });
+  return userData;
+}
+
 // User Empleado 
 
 async function getUserInfo(iduser) {
@@ -38,12 +43,13 @@ async function getUserInfo(iduser) {
   return userData;
 }
 
-async function updateInfoUser(nombre, primerApellido, segundoApellido, pais, ciudad, email, password) {
-  return await fetchApi('/users/udpdateinfouser', { method: 'POST', body: { nombre, primerApellido, segundoApellido, pais, ciudad, email, password } });
+async function updateInfoUser(nombre, primerApellido, segundoApellido, pais, ciudad, photo, email, password, repeatPassword) {
+  const userData = await fetchApi('/users/udpdateinfouser', { method: 'POST', body: { nombre, primerApellido, segundoApellido, pais, ciudad, photo, email, password, repeatPassword } });
+  return userData
 }
 
 async function addJob(idE, id, puesto, fecI, fecF) {
-  return await fetchApi('/users/', { method: 'POST', body: { idE, id, puesto, fecI, fecF } });
+  return await fetchApi('/users/addjob', { method: 'PUT', body: { idE, id, puesto, fecI, fecF } });
 }
 
 // User Empresa 
@@ -53,4 +59,4 @@ async function getEmpresaInfo(empresaid) {
   return { empresaData };
 }
 
-export { search, login, register, getUserInfo, getEmpresaInfo, updateInfoUser, addJob };
+export { search, login, register, getRol, getUserInfo, getEmpresaInfo, updateInfoUser, addJob };

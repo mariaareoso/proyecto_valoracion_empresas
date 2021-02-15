@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { AuthProvider } from "./shared/context/authContext";
 import PrivateRoute from "./components/PrivateRoute";
@@ -10,6 +11,16 @@ import AjustesDeCuenta from "./pages/AjustesDeCuenta";
 import ResetPassword from "./components/ajustesDeCuenta/resetPassword";
 import VentanaTablaEmpleados from "./components/listaEmpleados/WorkerList";
 import ValoracionTablaEmpleados from "./components/valoracionesEmpleados/voteList";
+=======
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { AuthProvider } from './shared/context/authContext';
+import PrivateRoute from './components/PrivateRoute';
+import Home from './pages/Home';
+import EmpresasList from './pages/EmpresasList';
+import EmpresaInfo from './pages/EmpresaInfo';
+import RegisterHome from './pages/RegisterHome';
+import PerfilUser from './pages/PerfilUsuario';
+>>>>>>> 8a1c8deb2f53f3790c2d123bb0b61df5a0bfce27
 
 function App() {
   return (

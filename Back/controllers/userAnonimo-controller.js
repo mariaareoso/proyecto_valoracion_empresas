@@ -74,6 +74,8 @@ async function getListEmpresaValoracion(req, res) {
   }
 }
 
+
+
 module.exports = {
   getListEmpresa,
   getEmpresaInfo,

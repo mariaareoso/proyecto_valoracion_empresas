@@ -10,12 +10,6 @@ body{
     background-color: white;
 }
 
-.action{
-    position: fixed;
-    top: 20px;
-    right: 30px;
-}
-
 .action .profile{
     position: relative;
     width: 45px;
@@ -23,7 +17,7 @@ body{
     border-radius: 50%;
     overflow: hidden;
     cursor: pointer;
-    margin-top: 5px;
+
 }
 
 .action .profile img{

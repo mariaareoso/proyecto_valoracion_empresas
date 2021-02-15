@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const { role } = require('../helpers');
 const { JWT_SECRET } = process.env;
 
 

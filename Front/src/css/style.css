@@ -1,0 +1,402 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+.contenido{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: 1px solid gray;
+}
+
+.image{
+    display:none;
+    visibility:hidden
+}
+
+.navegation{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo{
+    color: #00B0FF;
+    font-family: Roboto, sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    text-align: center;
+    width: 100%;
+}
+.PopUp{
+    position: relative;
+    float: right;
+    width: 100%;
+    padding-top: 10px;
+}
+
+.PopUp button{
+    background-color: rgb(255, 255, 255);
+    color: black;
+    border-radius: 10px;
+    border: 1px solid black;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 8px;
+}
+
+.PopUp button:focus{
+    background-color: white;
+    color: black;
+    border-radius: 10px;
+    border: 1px solid black;
+}
+
+.searchGroup{    
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    border-bottom: 1px solid black;
+}
+
+.search{
+    position: relative;
+    float: center;
+    display: flex;
+    align-content: center;
+    height: 30px;
+    margin-top: 50px;
+    margin-bottom: 85px;
+}
+
+.inputSearch{  
+    border-radius: 20px;
+    height: 40px;
+    width: 200px;
+    margin-right:10px ;
+    padding-left: 20px;
+    background-color: rgb(226, 226, 226);
+    border: 0.5px solid gray;
+    font-size: 16px;
+}
+
+.inputSearch:focus{  
+    background-color:none
+}
+
+.botonimagen{
+  background-image:url('../image/buscar.png');
+  background-position:center;
+  background-repeat:no-repeat;
+  background-color: rgb(226, 226, 226);
+  height: 40px;
+  width: 40px;
+  border-radius:30px;
+}
+
+.footer{
+    background-color: #778DA9;
+    width: 100%;
+    color: white;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    height: 280px;
+}
+
+.footerElements{
+    justify-content: space-evenly;
+    margin: 10px;
+}
+
+.politicaTerminos{
+    margin-top: 5px;
+    display: flex;
+    list-style: none;
+    flex-direction: row;
+}
+
+.icons{
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 10px 0; 
+}
+
+.icons img{
+    float: right;
+    width: 20px;
+    height: 20px;
+    margin: 5px;
+}
+
+.footer> div  > p{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 5px 0;
+    font-size: 12px;
+}
+
+.login{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.emailLogin{
+    width: 250px;
+    margin: 15px 0;
+    padding-left: 5px;
+}
+
+.passwordLogin{
+    width: 250px;
+    margin: 15px 0;
+    padding-left: 5px;
+}
+
+.bottomLogin{
+    width: 150px;
+    margin: 15px 0;
+}
+
+.linkRegister{
+    margin: 15px 0;
+}
+
+.checcheckForm{
+    display: flex;
+    flex-direction: row;
+}
+
+.checklabel{
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.checkinput{
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.nombreEmpresa{
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.inputStar{
+    display: none;
+}
+
+.rating{
+    display: flex;
+    align-items: center
+}
+
+.star{
+    margin: 0.15rem; 
+    cursor: pointer; 
+    transition: color 200ms; 
+}
+
+.boton{
+    background-color: rgb(255, 255, 255);
+    color: black;
+    border-radius: 10px;
+    border: 1px solid black;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.empresa{
+    display: flex;
+    flex-direction: column;
+    background-color:  #8DC8D8;
+    border-radius: 20px;
+    margin: 15px 0;
+    align-items: center;
+}
+
+.empresaCuerpo{
+    padding: 1px;
+    margin: 0 10px;
+}
+
+.empresa .boton{
+    margin-bottom: 15px;
+    width: 80%;
+}
+
+.resumenEmpresa{
+    background-color:  #8DC8D8;
+    margin: 5px;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 15px;
+}
+
+.resumenEmpresaNombre{
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.resumenResumen{
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.graficosEmpresa{
+    display:none;
+    visibility:hidden
+}
+
+.valoraciones{
+    background-color:  #c5e5ee;
+    margin: 5px;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 15px;
+}
+
+.avatarLogin{
+    display:none;
+    visibility:hidden
+}
+
+.navLogerUser{
+    display: flex;
+    justify-content: space-evenly;
+    color: #353e4b;
+}
+
+.formPerfil{
+    display: flex;
+    flex-direction: column;
+    margin: 8px;
+}
+
+.formPerfil div{
+    display: flex;
+    flex-direction: column;
+}
+
+.formPerfil input{
+    margin: 5px 0;
+}
+
+.formPerfil div h3{
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.formPerfil div label{
+    font-weight: bold;
+}
+
+.EmpresaInfoPopUpbutton{
+    display: block;
+    border-radius: 10px;
+    background-color: rgb(226, 226, 226);
+    border: 0.5px solid gray;
+    font-size: 16px;
+    margin: 8px auto;
+    width: 90%;
+}
+
+@media (min-width: 700px) {
+
+    .avatarLogin{
+        display: flex;
+        visibility:visible
+    }
+
+    .navLogerUser{
+        display: none;
+        visibility:hidden
+    }
+
+    .navegation{
+        border-bottom: 1px solid #353e4b;
+        flex-direction: row;
+    }
+
+    .logo{
+        color: #00B0FF;
+        font-family: Roboto, sans-serif;
+        font-size: 30px;
+        font-weight: bold;
+        display: flex;
+        justify-content: left;
+        margin: auto;
+        text-align: center;
+        width: 100%;
+    }
+    
+    .logo{
+        color: #00B0FF;
+        font-family: Roboto, sans-serif;
+        font-size: 30px;
+        font-weight: bold;
+        padding-right: 10px;
+    }
+
+    .searchGroup{
+        padding: 200px 0;
+    }
+
+    .inputSearch{
+        width: 500px;
+    }
+
+    .PopUp{
+        position: relative;
+        float: right;
+        width: 30%;
+        padding-top: 0px;
+        margin-right:0px ;
+    }
+    
+    .PopUp button{
+        background-color: rgb(255, 255, 255);
+        color: black;
+        border-radius: 20px;
+        border: 1px solid black;
+        width: 80%;
+        padding: 4px 0;
+    }
+
+    .action{
+        position: fixed;
+        top: 60px;
+        right: 40px;
+    }
+
+    .contenido{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        border-bottom: none;
+        margin: 5px 0;
+    }
+    
+    .image{
+        display:flex;
+        visibility:visible;
+        width: 350px
+    }
+    
+}
