@@ -5,11 +5,10 @@ import useMatchMedia from '../shared/hooks/useMatchMedia';
 import Login from './Login';
 import Register from './Register';
 import AddJob from './AddJob';
-
+import Valorar from './Valorar';
 
 import 'rodal/lib/rodal.css';
-import '../css/Modal.css';
-import Valorar from './Valorar';
+
 
 const ResponsiveRodal = lazy(() => import('./ResponviseRodal'));
 
@@ -77,9 +76,11 @@ function RegisterPopUP() {
     )
 }
 
-function AddJobPopUP() {
+function AddJobPopUP(props) {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const { matches } = useMatchMedia('(max-width: 600px)');
+
+    const { empresa } = props
 
     const showDialog = () => {
         setIsDialogOpen(true);
@@ -90,7 +91,7 @@ function AddJobPopUP() {
 
     return (
         <>
-            <button onClick={showDialog} className='PopUp button'>Añadir puesto</button>
+            <button onClick={showDialog} className='EmpresaInfoPopUpbutton'>Añadir puesto</button>
             {isDialogOpen && (
                 <Suspense fallback={<span>loading</span>}>
                     <ResponsiveRodal
@@ -101,7 +102,7 @@ function AddJobPopUP() {
                         customStyles={{ width: matches ? '100%' : '400px', height: matches ? '100%' : '400px' }}
                         animation="fade"
                     >
-                        <AddJob></AddJob>
+                        <AddJob empresa={empresa}></AddJob>
                     </ResponsiveRodal>
                 </Suspense>
             )}
@@ -122,7 +123,7 @@ function ValorarPopUP() {
 
     return (
         <>
-            <button onClick={showDialog} className='PopUp button'>Valorar</button>
+            <button onClick={showDialog} className='EmpresaInfoPopUpbutton'>Valorar</button>
             {isDialogOpen && (
                 <Suspense fallback={<span>loading</span>}>
                     <ResponsiveRodal

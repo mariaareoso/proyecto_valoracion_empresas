@@ -2,11 +2,13 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { updateInfoUser } from '../http/apiSharpView';
 
+import '../css/style.css'
+
 function PerfilEmpleado({ usuario }) {
     const { handleSubmit, reset } = useForm();
 
     const updateInfo = async () => {
-        await updateInfoUser(nombre, primerApellido, segundoApellido, pais, ciudad, email, password);
+        await updateInfoUser(nombre, primerApellido, segundoApellido, pais, ciudad, photo, email, password, repeatPassword);
         reset();
     }
 
@@ -17,11 +19,11 @@ function PerfilEmpleado({ usuario }) {
     const [ciudad, setCiudad] = useState(usuario.ciudad)
     const [email, setEmail] = useState(usuario.email)
     const [password, setPassword] = useState(usuario.password)
-
-    console.log('usuario.nombre', nombre);
+    const [repeatPassword, setRepeatPassword] = useState(usuario.repeatPassword)
+    const [photo, setPhoto] = useState(usuario.photo)
 
     return (
-        <form className='Form' onSubmit={handleSubmit(updateInfo)}>
+        <form className='formPerfil' onSubmit={handleSubmit(updateInfo)}>
             <h2 className='titulo'>Perfil empleado</h2>
             <div>
                 <h3>Datos personales</h3>
@@ -35,8 +37,10 @@ function PerfilEmpleado({ usuario }) {
                 <input id="pais" name="pais" type='text' value={pais} onChange={(e) => setPais(e.target.value)}></input>
                 <label htmlFor="nombre">Ciudad</label>
                 <input id="ciudad" name="ciudad" type='text' value={ciudad} onChange={(e) => setCiudad(e.target.value)}></input>
-                <label htmlFor="link">Foto de perfil</label>
-                <input id="link" name="link" type='link' onchange value={usuario.link}></input>
+                {/* /////////////////// */}
+                <label htmlFor="photo">Image</label>
+                <input name="photo" type="file" id="photo" onchange={(e) => setPhoto(e.target.value)} value={usuario.photo} />
+                {/* /////////////////// */}
             </div>
             <div>
                 <h3>Datos Profesionales</h3>
@@ -46,10 +50,10 @@ function PerfilEmpleado({ usuario }) {
                 <input id="paisEmpresa" name="paisEmpresa" type='text' value={usuario.paisEmpresa}></input>
                 <label htmlFor="sede">Ciudad</label>
                 <input id="sede" name="sede" type='text' value={usuario.sede}></input>
-                {/* <label htmlFor="validacion">Validado</label>
-                <input id="validacion" name="validacion" type='color' value={usuario.validacion}></input> */}
                 <label htmlFor="puesto">Puesto</label>
                 <input id="puesto" name="puesto" type='text' value={usuario.puesto}></input>
+                <label htmlFor="validacion">Validado</label>
+                <input id="validacion" name="validacion" type='radio' value={usuario.validacion} checked={true}></input>
             </div>
             <div>
                 <h3>Datos cuenta de usuario</h3>
@@ -60,7 +64,7 @@ function PerfilEmpleado({ usuario }) {
                 <label htmlFor="password">Nueva Contraseña</label>
                 <input id="password" name="password" type='password' value={password} onChange={(e) => setPassword(e.target.value)}></input>
                 <label htmlFor="repeatPassword">Repita Contraseña</label>
-                <input id="repeatPassword" name="repeatPassword" type='password' value={password} onChange={(e) => setPassword(e.target.value)}></input>
+                <input id="repeatPassword" name="repeatPassword" type='password' value={repeatPassword} onChange={(e) => setRepeatPassword(e.target.value)}></input>
             </div>
             <input type="submit" value='Guardar' />
         </form>

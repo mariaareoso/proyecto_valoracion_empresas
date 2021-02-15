@@ -7,7 +7,7 @@ import usuario from '../image/usuario.png'
 import empresa from '../image/empresa.png'
 import sitioweb from '../image/sitioweb.png'
 import empleado from '../image/empleado.png'
-import '../css/Home.css'
+import '../css/style.css'
 
 function Home() {
     return (
@@ -24,7 +24,6 @@ function Home() {
             </div>
             <Footer></Footer>
         </div>
-
     )
 }
 

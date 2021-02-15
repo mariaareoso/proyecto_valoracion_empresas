@@ -1,5 +1,3 @@
-import '../css/Text.css'
-
 function TextLeft(props) {
     const { titulo, img } = props
     return (

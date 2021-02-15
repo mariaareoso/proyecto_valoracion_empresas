@@ -1,5 +1,7 @@
 import EmpresaSummary from './EmpresaSummary';
 
+
+
 function EmpresaList({ empresas }) {
   return (
     <section>

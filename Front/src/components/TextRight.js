@@ -1,4 +1,4 @@
-import '../css/Text.css'
+import '../css/style.css'
 
 function TextRight(props) {
     const { titulo, img } = props

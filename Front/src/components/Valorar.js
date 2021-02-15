@@ -1,4 +1,3 @@
-import '../css/LoginForm.css'
 import { addJob } from '../http/apiSharpView'
 import { ValorarForm } from './Forms';
 

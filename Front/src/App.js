@@ -7,8 +7,6 @@ import EmpresaInfo from './pages/EmpresaInfo';
 import RegisterHome from './pages/RegisterHome';
 import PerfilUser from './pages/PerfilUsuario';
 
-
-
 function App() {
   return (
     <Router>

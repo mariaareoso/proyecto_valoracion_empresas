@@ -1,12 +1,11 @@
 import { AddJobForm } from './Forms';
-import '../css/LoginForm.css'
 import { addJob } from '../http/apiSharpView'
 
-function AddJob() {
-
+function AddJob(props) {
+  const { empresa } = props
   return (
     <div>
-      <AddJobForm onSubmit={addJob}></AddJobForm>
+      <AddJobForm empresa={empresa} onSubmit={addJob}></AddJobForm>
     </div>
   )
 }
