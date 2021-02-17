@@ -1,0 +1,46 @@
+table {
+  table-layout: fixed;
+  width: 90%;
+  border-collapse: collapse;
+  border: 3px solid rgb(148, 180, 192);
+  background-color: rgb(148, 194, 212);
+}
+
+thead th:nth-child(1) {
+  width: 30%;
+}
+
+thead th:nth-child(2) {
+  width: 20%;
+}
+
+thead th:nth-child(3) {
+  width: 15%;
+}
+
+thead th:nth-child(4) {
+  width: 35%;
+}
+
+th,
+td {
+  padding: 20px;
+}
+
+.empleados > tr > td,
+.empleados > tr > th {
+  padding: 2rem;
+}
+
+.encabezado {
+  background-color: rgb(109, 144, 146);
+  color: white;
+}
+caption {
+  padding: 20px;
+  font-style: italic;
+  caption-side: bottom;
+  color: #666;
+  text-align: right;
+  letter-spacing: 1px;
+}
