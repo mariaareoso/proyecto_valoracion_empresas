@@ -1,0 +1,59 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+.parrafo {
+  color: black;
+  font-size: 15px;
+  text-align: justify;
+}
+
+table {
+  padding: 80%;
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 3px solid rgb(148, 180, 192);
+  overflow: auto;
+  font-size: 20px;
+}
+
+thead.empleados th:nth-child(1) {
+  width: 30%;
+  padding: 40px;
+}
+
+thead.empleados th:nth-child(2) {
+  width: 30%;
+}
+
+thead.empleados th:nth-child(3) {
+  width: 30%;
+}
+
+thead.empleados th:nth-child(4) {
+  width: 30%;
+}
+
+table.empleados > tr > td,
+table.empleados > tr > th {
+  padding: 10rem;
+}
+
+.encabezado {
+  background-color: rgb(109, 144, 146);
+  padding: 20px;
+  border-radius: 2px;
+}
+
+table.emplados caption {
+  padding: 20px;
+  font-style: italic;
+  caption-side: bottom;
+  color: #666;
+  text-align: right;
+  letter-spacing: 1px;
+}
