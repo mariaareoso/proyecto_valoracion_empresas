@@ -19,7 +19,6 @@ async function getListEmpresa(req, res) {
     if (err.name === 'ValidationError') {
       err.status = 400;
     }
-    console.log(err);
     res.status(err.status || 500);
     res.send({ error: err.message });
   }

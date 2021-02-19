@@ -3,6 +3,7 @@ import { addJob } from '../http/apiSharpView'
 
 function AddJob(props) {
   const { empresa } = props
+
   return (
     <div>
       <AddJobForm empresa={empresa} onSubmit={addJob}></AddJobForm>

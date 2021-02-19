@@ -4,8 +4,10 @@ import PrivateRoute from './components/PrivateRoute';
 import Home from './pages/Home';
 import EmpresasList from './pages/EmpresasList';
 import EmpresaInfo from './pages/EmpresaInfo';
+import EmpresaInfoEdit from './pages/EmpresaInfoEdit';
 import RegisterHome from './pages/RegisterHome';
-import PerfilUser from './pages/PerfilUsuario';
+import Perfil from './pages/Perfil';
+import EmpleadosList from './pages/ListaEmpleados';
 
 function App() {
   return (
@@ -26,7 +28,17 @@ function App() {
           </Route>
           <Route exact path="/users/iduser">
             <PrivateRoute>
-              <PerfilUser></PerfilUser>
+              <Perfil></Perfil>
+            </PrivateRoute>
+          </Route>
+          <Route exact path="/empresaeditinfo/">
+            <PrivateRoute>
+              <EmpresaInfoEdit></EmpresaInfoEdit>
+            </PrivateRoute>
+          </Route>
+          <Route exact path="/empleados/:idempresa">
+            <PrivateRoute>
+              <EmpleadosList></EmpleadosList>
             </PrivateRoute>
           </Route>
         </AuthProvider>

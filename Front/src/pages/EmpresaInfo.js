@@ -4,6 +4,7 @@ import Footer from '../components/Footer';
 import Navigation from '../components/Navigation';
 import { InfoEmpresa } from '../components/InfoEmpresaMenu';
 import { getEmpresaInfo } from '../http/apiSharpView';
+import useAuth from '../shared/hooks/useAuth';
 
 function EmpresaInfo() {
     const params = useParams();
@@ -16,12 +17,11 @@ function EmpresaInfo() {
         infoEmpresa();
     }, [params.idempresa])
 
-
     if (!empresa) return <div>Cargando...</div>;
 
     return (
         <section>
-            <div>
+            <div className='pagina'>
                 <Navigation></Navigation>
                 <InfoEmpresa empresa={empresa} ></InfoEmpresa>
             </div>

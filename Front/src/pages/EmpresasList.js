@@ -4,8 +4,6 @@ import { search } from '../http/apiSharpView';
 import Navigation from '../components/Navigation';
 import Footer from "../components/Footer";
 import EmpresaList from '../components/EmpresaList';
-// import SearchHook from '../components/SearchHook';
-// import StarRating from '../components/StarRating';
 
 import '../css/style.css'
 
@@ -22,8 +20,7 @@ function EmpresasList() {
         loadEmpresas();
     }, [query])
 
-    console.log(empresas, 'empresasListas');
-
+    console.log(empresas);
 
     return (
         <div>

@@ -1,13 +1,13 @@
 'use strict';
 
 const database = require('../infrastructure/database');
+const { uploadPhoto } = require('../helpers');
 
-async function creatreEmpresa(nombre_empresa, sede, photo, bio, idusuario) {
+async function creatreEmpresa(nombre_empresa, sede, bio, idusuario) {
   const pool = await database.getPool();
-  const Query = 'INSERT INTO empresa (nombre_empresa, sede, photo, bio, idusuario) VALUES(?,?,?,?,?)';
-  await pool.query(Query, [nombre_empresa, sede, photo, bio, idusuario]);
-
-  return true;
+  const Query = 'INSERT INTO empresa (nombre_empresa, sede, bio, idusuario) VALUES(?,?,?,?)';
+  const [insert] = await pool.query(Query, [nombre_empresa, sede, bio, idusuario]);
+  return insert.insertId;
 }
 
 async function deleteEmpresa(idusuario, idempresa) {
@@ -26,27 +26,35 @@ async function getSetEmpresa(idUser) {
   return Set;
 }
 
-async function updateSetEmpresa(email, clave, photo, id) {
+async function getEmpresa(idUser) {
   const pool = await database.getPool();
-  const updateQuery = 'UPDATE usuario SET email = ?, clave = ?, photo = ? WHERE idusuario = ?';
-  await pool.query(updateQuery, [email, clave, photo, id]);
+  const query = 'SELECT * FROM empresa WHERE idusuario = ?';
+  const [Set] = await pool.query(query, [idUser]);
 
-  return true;
+  return Set;
 }
 
-async function getEmpresa(idempresa) {
+async function getAspectos(idempresa) {
   const pool = await database.getPool();
   const query =
-    'SELECT nombre_empresa, sede, bio,photo, opinion, accesibilidad, ambiente_de_trabajo, sueldos, posibilidad_de_ascenso, conciliacion, estabilidad FROM empresa WHERE idempresa=?';
+    'SELECT * FROM aspecto WHERE idempresa=?';
   const [empresa] = await pool.query(query, [idempresa]);
 
   return empresa;
 }
 
-async function updateEmpresa(sede, bio, photo, idempresa, idusuario) {
+async function updateSetEmpresa(email, clave, id) {
   const pool = await database.getPool();
-  const updateQuery = 'UPDATE empresa SET sede = ?, bio = ?, photo=? WHERE idempresa = ? AND idusuario =?';
-  await pool.query(updateQuery, [sede, bio, photo, idempresa, idusuario]);
+  const updateQuery = 'UPDATE usuario SET email = ?, clave = ? WHERE idusuario = ?';
+  await pool.query(updateQuery, [email, clave, id]);
+
+  return true;
+}
+
+async function updateEmpresa(web, sede, bio, idempresa, idusuario) {
+  const pool = await database.getPool();
+  const updateQuery = 'UPDATE empresa SET web=? ,sede = ?, bio = ? WHERE idempresa = ? AND idusuario =?';
+  await pool.query(updateQuery, [web, sede, bio, idempresa, idusuario]);
 
   return true;
 }
@@ -54,7 +62,7 @@ async function updateEmpresa(sede, bio, photo, idempresa, idusuario) {
 async function getListEmpleados(idempresa) {
   const pool = await database.getPool();
   const query =
-    'SELECT u.nombre, a.puesto, a.fecha_inicio, a.fecha_fin, a.validacion FROM usuario AS u left JOIN aspecto AS a ON a.idusuario=u.idusuario JOIN empresa AS e ON a.idempresa=e.idempresa WHERE e.idempresa= ?';
+    'SELECT u.idusuario,a.idaspecto, u.nombre, a.puesto, a.fecha_inicio, a.fecha_fin, a.validacion FROM usuario AS u left JOIN aspecto AS a ON a.idusuario=u.idusuario JOIN empresa AS e ON a.idempresa=e.idempresa WHERE e.idempresa= ?';
   const [empleados] = await pool.query(query, [idempresa]);
 
   return empleados;
@@ -86,17 +94,17 @@ async function relationIduserIdempresa(idempresa) {
   return verificacion;
 }
 
-async function uploadValidacion(idaspecto, idempresa, idpropietario) {
+async function uploadValidacion(idaspecto, idempresa, id) {
   const pool = await database.getPool();
 
-  const propietarioQuery = 'SELECT idempresa from empresa WHERE idempresa=? AND idusuario=?';
-  const propietarioCheck = await pool.query(propietarioQuery, [idempresa, idpropietario]);
+  // const propietarioQuery = 'SELECT idempresa from empresa WHERE idempresa=? AND idusuario=?';
+  // const propietarioCheck = await pool.query(propietarioQuery, [idempresa, id]);
 
-  if (propietarioCheck[0].length === 0) {
-    const error = new Error('No eres el propietario de la empresa');
-    error.status = 401;
-    throw error;
-  }
+  // if (propietarioCheck[0].length === 0) {
+  //   const error = new Error('No eres el propietario de la empresa');
+  //   error.status = 401;
+  //   throw error;
+  // }
   const query = 'UPDATE aspecto SET validacion = 1 WHERE idaspecto = ?';
   await pool.query(query, [idaspecto]);
 
@@ -111,12 +119,29 @@ async function getIdEmpresa(idempresa) {
   return empresa;
 }
 
+async function updateLogoEmpresa(photo, id) {
+  const pool = await database.getPool();
+
+  const savedPhoto = await uploadPhoto({
+    photo,
+    destination: 'Logos',
+    width: 300,
+    photoName: `LogoEmpresa_${id}.png`
+  })
+
+  const query = 'UPDATE empresa SET photo_empresa=? WHERE idusuario=?';
+  const [valicion] = await pool.query(query, [savedPhoto, id]);
+
+  return valicion;
+}
+
 module.exports = {
   creatreEmpresa,
   deleteEmpresa,
   getSetEmpresa,
-  updateSetEmpresa,
   getEmpresa,
+  updateSetEmpresa,
+  getAspectos,
   updateEmpresa,
   getListEmpleados,
   getReviews,
@@ -124,4 +149,5 @@ module.exports = {
   relationIduserIdempresa,
   uploadValidacion,
   getIdEmpresa,
+  updateLogoEmpresa
 };

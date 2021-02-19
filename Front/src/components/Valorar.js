@@ -2,10 +2,14 @@ import { addJob } from '../http/apiSharpView'
 import { ValorarForm } from './Forms';
 
 
-function Valorar(params) {
+function Valorar(props) {
+
+    const { empresa } = props
+
+
     return (
         <div>
-            <ValorarForm onSubmit={addJob}></ValorarForm>
+            <ValorarForm empresa={empresa}></ValorarForm>
         </div>
     )
 }

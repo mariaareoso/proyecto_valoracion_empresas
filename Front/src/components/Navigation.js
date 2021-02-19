@@ -3,10 +3,12 @@ import { useHistory } from 'react-router'
 import { Link } from 'react-router-dom';
 import ShowToLoggedInUsers from './ShowToLoggedInUsers'
 import ShowToNoLoggedInUsers from './ShowToNoLoggedInUsers'
-import AvatarMenu from './avatar';
+import AvatarMenu from './Avatar';
 import useAuth from '../shared/hooks/useAuth';
 
 import '../css/style.css'
+import ShowToEmployed from './ShowToEmployed';
+import ShowToEmpresa from './ShowToEmpresa';
 
 function NavigationLogin() {
     const history = useHistory();
@@ -23,10 +25,21 @@ function NavigationLogin() {
                     <LoginPopUP />
                 </ShowToNoLoggedInUsers>
                 <ShowToLoggedInUsers>
-                    <div className='navLogerUser'>
-                        <Link to='/users/iduser'>Perfil de usuario</Link>
-                        <Link onClick={logUserOut}> Cerrar sesión</Link>
-                    </div>
+                    <ShowToEmployed>
+                        <div className='navLogerUser'>
+                            <Link to='/'>Inicio</Link>
+                            <Link to='/users/iduser'>Perfil de usuario</Link>
+                            <button onClick={logUserOut}> Cerrar sesión</button>
+                        </div>
+                    </ShowToEmployed>
+                    <ShowToEmpresa>
+                        <div className='navLogerUser'>
+                            <Link to='/'>Inicio</Link>
+                            <Link to='/empresaeditinfo'>Perfil de empresa</Link>
+                            <Link to='/users/iduser'>Ajustes</Link>
+                            <button onClick={logUserOut}> Cerrar sesión</button>
+                        </div>
+                    </ShowToEmpresa>
                 </ShowToLoggedInUsers>
                 <div className='avatarLogin'>
                     <ShowToLoggedInUsers>

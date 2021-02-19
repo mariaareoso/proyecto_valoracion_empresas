@@ -5,10 +5,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { MAILGUN_KEY, DOMAIN } = process.env;
 const mailgun = require('mailgun-js');
-const fs = require('fs');
-const path = require('path')
 
-const { empleadoRepository } = require('../repositories');
+const { empleadoRepository, empresaRepository } = require('../repositories');
 
 async function register(req, res) {
   try {
@@ -72,6 +70,7 @@ async function login(req, res) {
     await schema.validateAsync({ email, password });
 
     const user = await empleadoRepository.getUserByEmail(email);
+    const empresa = await empleadoRepository.getEmpresaByEmail(email);
 
     if (!user) {
       const error = new Error('No existe el usuario con ese email');
@@ -90,7 +89,7 @@ async function login(req, res) {
     const tokenPayload = { id: user.idusuario, name: user.nombre };
     const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '30d' });
 
-    res.send({ token });
+    res.send({ token, user, empresa });
   } catch (err) {
     if (err.name === 'ValidationError') {
       err.status = 400;
@@ -114,13 +113,11 @@ async function updateJob(req, res) {
 
     await schema.validateAsync({ idE, puesto, fecI, fecF });
 
-    const stateUser = await empleadoRepository.getRol(req.auth.id);
-
-    console.log(stateUser[0].empleado);
+    const stateUser = await empleadoRepository.getStateUser(req.auth.id);
 
     if (stateUser[0].empleado === 1) {
       const Job = await empleadoRepository.creatreJob(idE, req.auth.id, puesto, fecI, fecF);
-
+      const falseReview = await empleadoRepository.createReview(' ', 0, 0, 0, 0, 0, 0, idE, req.auth.id);
       return res.send(Job);
     } else {
       res.send('Eres un empresa');
@@ -140,25 +137,7 @@ async function getIdUser(req, res) {
     const userId = req.auth.id;
 
     const user = await empleadoRepository.getIdUser(userId);
-    console.log(user, 'userEmpleado Back');
     res.send(user);
-  } catch (err) {
-    if (err.name === 'ValidationError') {
-      err.status = 400;
-    }
-    console.log(err);
-    res.status(err.status || 500);
-    res.send({ error: err.message });
-  }
-}
-
-async function getRol(req, res) {
-  try {
-    const userId = req.auth.id;
-
-    const rol = await empleadoRepository.getRol(userId);
-
-    res.send(rol);
   } catch (err) {
     if (err.name === 'ValidationError') {
       err.status = 400;
@@ -171,7 +150,7 @@ async function getRol(req, res) {
 
 async function updateInfoUser(req, res) {
   try {
-    const { nombre, primerApellido, segundoApellido, pais, ciudad, photo, email, password, repeatPassword } = req.body;
+    const { nombre, primerApellido, segundoApellido, pais, ciudad, email, password, repeatPassword } = req.body;
 
     const schema = Joi.object({
       nombre: Joi.string().required(),
@@ -184,14 +163,29 @@ async function updateInfoUser(req, res) {
       repeatPassword: Joi.ref('password'),
     });
 
-
     await schema.validateAsync({ nombre, primerApellido, segundoApellido, pais, ciudad, email, password, repeatPassword });
 
     const passwordHash = await bcrypt.hash(password, 10);
 
-    const userInfo = await empleadoRepository.updateUser(nombre, primerApellido, segundoApellido, pais, ciudad, photo, email, passwordHash, req.auth.id);
+    const userInfo = await empleadoRepository.updateUser(nombre, primerApellido, segundoApellido, pais, ciudad, email, passwordHash, req.auth.id);
 
     res.send(userInfo);
+  } catch (err) {
+    if (err.name === 'ValidationError') {
+      err.status = 400;
+    }
+    console.log(err);
+    res.status(err.status || 500);
+    res.send({ error: err.message });
+  }
+}
+
+async function getUserDataJob(req, res) {
+  try {
+    const userId = req.auth.id;
+
+    const user = await empleadoRepository.getUserDataJob(userId);
+    res.send(user);
   } catch (err) {
     if (err.name === 'ValidationError') {
       err.status = 400;
@@ -251,7 +245,6 @@ async function createReview(req, res) {
       estabilidad: Joi.number().min(0).max(5),
     });
     const empresaid = req.params.idempresa;
-    console.log(empresaid);
 
     await schema.validateAsync({
       opinion,
@@ -264,8 +257,6 @@ async function createReview(req, res) {
     });
 
     const validacion = await empleadoRepository.getValidacion(req.auth.id, empresaid);
-
-    console.log(validacion[0].validacion);
 
     if (validacion[0].validacion === 1) {
       const review = await empleadoRepository.createReview(
@@ -296,9 +287,16 @@ async function createReview(req, res) {
 
 async function updatePhoto(req, res) {
   try {
-    const userInfo = await empleadoRepository.updatePhotoUser(photo, req.auth.id);
 
-    res.send(userInfo);
+    if (!req.files || !req.files.attachment) {
+      const error = new Error('No hay foto');
+      error.status = 400;
+      throw error;
+    }
+
+    const savedPhoto = await empleadoRepository.updatePhotoUser(req.files.attachment, req.auth.id);
+
+    res.send({ avatar: savedPhoto });
   } catch (err) {
     if (err.name === 'ValidationError') {
       err.status = 400;
@@ -318,6 +316,6 @@ module.exports = {
   updateInfoUser,
   deleteJob,
   createReview,
-  getRol,
   updatePhoto,
+  getUserDataJob
 }

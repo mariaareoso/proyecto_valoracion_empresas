@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router'
 import useAuth from '../shared/hooks/useAuth';
-// import { getRol } from '../http/apiSharpView';
 
 import 'antd/dist/antd.css';
 import '../css/Avatar.css'
 
 import user from '../image/user.png'
 import logOut from '../image/log-out.png'
+import perfilempresa from '../image/perfilEmpresa.png'
+import home from '../image/home.png'
+import settings from '../image/settings.png'
+
 
 
 const DropdownItem = (props) => {
@@ -22,13 +25,43 @@ const DropdownItem = (props) => {
     )
 };
 
-function Menu(props) {
+
+function MenuEmpleado(props) {
 
     const history = useHistory();
-    const { signOut } = useAuth();
-    // const { signOut, userData } = useAuth();
+    const { signOut, userInfo } = useAuth();
 
     const openPerfil = () => {
+        history.push("/users/iduser");
+    }
+    const toHome = () => {
+        history.push("/");
+    }
+
+    const logUserOut = () => {
+        signOut();
+    }
+
+    return (
+        <ul className='menu'>
+            <h3 className='userName'>{userInfo.nombre}</h3>
+            <DropdownItem icon={home} onAction={toHome}>Inicio</DropdownItem>
+            <DropdownItem icon={user} onAction={openPerfil}>Perfil</DropdownItem>
+            <DropdownItem icon={logOut} onAction={logUserOut}>Salir</DropdownItem>
+        </ul>)
+}
+
+
+function MenuEmpresa(props) {
+
+    const history = useHistory();
+    const { signOut, userInfo } = useAuth();
+
+    const openPerfil = () => {
+        history.push(`/empresaeditinfo/`);
+    }
+
+    const setting = () => {
         history.push("/users/iduser");
     }
 
@@ -36,47 +69,20 @@ function Menu(props) {
         signOut();
     }
 
-    // console.log(userData, 'userData');
-
-    // const [userRol, setUserRoll] = useState('');
-
-    // useEffect(() => {
-    //     const infoEmpresa = async () => {
-    //         setUserRoll(await getRol(userData.id))
-    //     }
-    //     infoEmpresa();
-    // }, [userData.id])
-
-    // const empresa = userRol[0].empresa
-    // const empleado = userRol[0].empleado
-
-    // console.log(userRol, 'userRol');
-    // console.log(empresa, 'userRolEmpresa');
-    // console.log(empleado, 'userRolEmpleado');
-
-
-    // // return ('Hola')
-
-    // if (empresa === 1) {
-    //     return (
-    //         <ul className='menu'>
-    //             <h3 className='userName'>Nombre usuario</h3>
-    //             <h5 className='userJob'>Puesto usuario</h5>
-    //             <DropdownItem icon={user} onAction={openPerfil}>Perfil Empresa</DropdownItem>
-    //             <DropdownItem icon={logOut} onAction={logUserOut}>Salir</DropdownItem>
-    //         </ul>)
-    // }
-
-    // if (empleado === 1) {
+    const toHome = () => {
+        history.push("/");
+    }
 
     return (
         <ul className='menu'>
-            <h3 className='userName'>Nombre usuario</h3>
-            <h5 className='userJob'>Puesto usuario</h5>
-            <DropdownItem icon={user} onAction={openPerfil}>Perfil</DropdownItem>
+            <h3 className='userName'>{userInfo.nombre}</h3>
+            <DropdownItem icon={home} onAction={toHome}>Inicio</DropdownItem>
+            <DropdownItem icon={perfilempresa} onAction={openPerfil}>Empresa</DropdownItem>
+            <DropdownItem icon={settings} onAction={setting}>Ajustes</DropdownItem>
             <DropdownItem icon={logOut} onAction={logUserOut}>Salir</DropdownItem>
         </ul>)
-    //}
 }
 
-export default Menu
+
+
+export { MenuEmpleado, MenuEmpresa }

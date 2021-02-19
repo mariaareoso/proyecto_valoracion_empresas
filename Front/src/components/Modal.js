@@ -1,20 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Suspense, lazy } from 'react';
-import useMatchMedia from '../shared/hooks/useMatchMedia';
 
 import Login from './Login';
 import Register from './Register';
 import AddJob from './AddJob';
 import Valorar from './Valorar';
 
+import AddEmpresa from './AddEmpresa';
+import { getEmpresa } from '../http/apiSharpView';
+import { ResponsiveRodalEmpresa, ResponsiveRodalJob, ResponsiveRodalLogin, ResponsiveRodalRegister, ResponsiveRodalValorar } from './ResponviseRodal';
 import 'rodal/lib/rodal.css';
 
 
-const ResponsiveRodal = lazy(() => import('./ResponviseRodal'));
+const { } = lazy(() => import('./ResponviseRodal'));
 
 function LoginPopUP() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const { matches } = useMatchMedia('(max-width: 600px)');
 
     const showDialog = () => {
         setIsDialogOpen(true);
@@ -28,16 +29,12 @@ function LoginPopUP() {
             <button onClick={showDialog} className='PopUp button'>Iniciar sesión</button>
             {isDialogOpen && (
                 <Suspense fallback={<span>loading</span>}>
-                    <ResponsiveRodal
+                    <ResponsiveRodalLogin
                         visible={isDialogOpen}
                         onClose={hideDialog}
-                        closeOnEsc={true}
-                        className="dialogo-reshulon"
-                        customStyles={{ width: matches ? '100%' : '400px', height: matches ? '100%' : '400px' }}
-                        animation="fade"
                     >
                         <Login></Login>
-                    </ResponsiveRodal>
+                    </ResponsiveRodalLogin>
                 </Suspense>
             )}
         </>
@@ -46,7 +43,6 @@ function LoginPopUP() {
 
 function RegisterPopUP() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const { matches } = useMatchMedia('(max-width: 600px)');
 
     const showDialog = () => {
         setIsDialogOpen(true);
@@ -60,16 +56,12 @@ function RegisterPopUP() {
             <button onClick={showDialog} className='PopUp button'>Iniciar sesión</button>
             {isDialogOpen && (
                 <Suspense fallback={<span>loading</span>}>
-                    <ResponsiveRodal
+                    <ResponsiveRodalRegister
                         visible={isDialogOpen}
                         onClose={hideDialog}
-                        closeOnEsc={true}
-                        className="dialogo-reshulon"
-                        customStyles={{ width: matches ? '100%' : '400px', height: matches ? '100%' : '400px' }}
-                        animation="fade"
                     >
                         <Register></Register>
-                    </ResponsiveRodal>
+                    </ResponsiveRodalRegister>
                 </Suspense>
             )}
         </>
@@ -78,7 +70,6 @@ function RegisterPopUP() {
 
 function AddJobPopUP(props) {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const { matches } = useMatchMedia('(max-width: 600px)');
 
     const { empresa } = props
 
@@ -94,25 +85,32 @@ function AddJobPopUP(props) {
             <button onClick={showDialog} className='EmpresaInfoPopUpbutton'>Añadir puesto</button>
             {isDialogOpen && (
                 <Suspense fallback={<span>loading</span>}>
-                    <ResponsiveRodal
+                    <ResponsiveRodalJob
                         visible={isDialogOpen}
                         onClose={hideDialog}
-                        closeOnEsc={true}
-                        className="dialogo-reshulon"
-                        customStyles={{ width: matches ? '100%' : '400px', height: matches ? '100%' : '400px' }}
-                        animation="fade"
-                    >
+                        closeOnEsc={true}>
                         <AddJob empresa={empresa}></AddJob>
-                    </ResponsiveRodal>
+                    </ResponsiveRodalJob>
                 </Suspense>
             )}
         </>
     )
 }
 
-function ValorarPopUP() {
+function AddEmpresaPopUP(props) {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const { matches } = useMatchMedia('(max-width: 600px)');
+
+    const { empresa } = props
+
+    const [empresaData, setEmpresaData] = useState()
+
+    useEffect(() => {
+        const infoEmpresa = async () => {
+            setEmpresaData(await getEmpresa(empresa.idusuario))
+        }
+        infoEmpresa();
+    }, [empresa.idusuario])
+
 
     const showDialog = () => {
         setIsDialogOpen(true);
@@ -123,23 +121,49 @@ function ValorarPopUP() {
 
     return (
         <>
-            <button onClick={showDialog} className='EmpresaInfoPopUpbutton'>Valorar</button>
+            <button onClick={showDialog} className='EmpresaInfoPopUpbutton'>Añadir empresa</button>
             {isDialogOpen && (
                 <Suspense fallback={<span>loading</span>}>
-                    <ResponsiveRodal
+                    <ResponsiveRodalEmpresa
                         visible={isDialogOpen}
                         onClose={hideDialog}
                         closeOnEsc={true}
-                        className="dialogo-reshulon"
-                        customStyles={{ width: matches ? '100%' : '400px', height: matches ? '100%' : '400px' }}
-                        animation="fade"
                     >
-                        <Valorar></Valorar>
-                    </ResponsiveRodal>
+                        <AddEmpresa empresa={empresaData}></AddEmpresa>
+                    </ResponsiveRodalEmpresa>
                 </Suspense>
             )}
         </>
     )
 }
 
-export { LoginPopUP, RegisterPopUP, AddJobPopUP, ValorarPopUP }
+function ValorarPopUP(props) {
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+    const showDialog = () => {
+        setIsDialogOpen(true);
+    };
+    const hideDialog = () => {
+        setIsDialogOpen(false);
+    };
+
+    const { empresa } = props
+
+    return (
+        <>
+            <button onClick={showDialog} className='EmpresaInfoPopUpbutton'>Valorar</button>
+            {isDialogOpen && (
+                <Suspense fallback={<span>loading</span>}>
+                    <ResponsiveRodalValorar
+                        visible={isDialogOpen}
+                        onClose={hideDialog}
+                    >
+                        <Valorar empresa={empresa}></Valorar>
+                    </ResponsiveRodalValorar>
+                </Suspense>
+            )}
+        </>
+    )
+}
+
+export { LoginPopUP, RegisterPopUP, AddJobPopUP, AddEmpresaPopUP, ValorarPopUP }

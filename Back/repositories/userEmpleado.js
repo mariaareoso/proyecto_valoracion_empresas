@@ -2,6 +2,7 @@
 
 const { query } = require('express');
 const database = require('../infrastructure/database');
+const { uploadPhoto } = require('../helpers');
 
 async function getUserByEmail(email) {
   const pool = await database.getPool();
@@ -11,22 +12,30 @@ async function getUserByEmail(email) {
   return user[0];
 }
 
+async function getEmpresaByEmail(email) {
+  const pool = await database.getPool();
+  const query = 'SELECT * FROM usuario AS u JOIN empresa AS e ON u.idusuario = e.idusuario WHERE u.email= ?';
+  const [empresa] = await pool.query(query, email);
+
+  return empresa[0];
+}
+
 async function getIdUser(idUser) {
   const pool = await database.getPool();
   const query =
     'SELECT u.idusuario, u.nombre, u.primerApellido, u.segundoApellido, u.pais, u.ciudad, u.photo, u.empleado, u.empresa, e.nombre_empresa,e.paisEmpresa, e.sede,a.puesto, a.fecha_inicio, a.fecha_fin, u.email,u.clave,a.validacion FROM usuario AS u left JOIN aspecto AS a ON a.idusuario=u.idusuario JOIN empresa AS e ON a.idempresa=e.idempresa WHERE u.idusuario= ?';
   const [User] = await pool.query(query, [idUser]);
-
-  console.log(User, 'User userEmpleadoRepository');
   return User;
 }
 
-async function getRol(idUser) {
+async function getUserDataJob(idUser) {
   const pool = await database.getPool();
-  const query = 'SELECT empleado FROM usuario WHERE idusuario= ?'
-  const [Rol] = await pool.query(query, [idUser]);
+  const query =
+    'SELECT e.idempresa, e.nombre_empresa,e.paisEmpresa, e.sede,a.puesto, a.fecha_inicio, a.fecha_fin,a.validacion FROM usuario AS u left JOIN aspecto AS a ON a.idusuario=u.idusuario JOIN empresa AS e ON a.idempresa=e.idempresa WHERE u.idusuario= ?'
+  const [User] = await pool.query(query, [idUser]);
 
-  return Rol;
+  console.log(User, 'User userEmpleadoRepository');
+  return User;
 }
 
 async function createUser(email, password, empresa, empleado) {
@@ -37,10 +46,10 @@ async function createUser(email, password, empresa, empleado) {
   return created.insertId;
 }
 
-async function updateUser(nombre, primerApellido, segundoApellido, pais, ciudad, photo, email, clave, id) {
+async function updateUser(nombre, primerApellido, segundoApellido, pais, ciudad, email, clave, id) {
   const pool = await database.getPool();
-  const updateQuery = 'UPDATE usuario SET nombre = ?, primerApellido =?, segundoApellido=?,  pais = ?, ciudad = ?, photo=?,  email = ?, clave = ?  WHERE idusuario = ?';
-  await pool.query(updateQuery, [nombre, primerApellido, segundoApellido, pais, ciudad, photo, email, clave, id]);
+  const updateQuery = 'UPDATE usuario SET nombre = ?, primerApellido =?, segundoApellido=?,  pais = ?, ciudad = ?,  email = ?, clave = ?  WHERE idusuario = ?';
+  await pool.query(updateQuery, [nombre, primerApellido, segundoApellido, pais, ciudad, email, clave, id]);
 
   return true;
 }
@@ -88,7 +97,7 @@ async function creatreJob(idE, id, puesto, fecI, fecF) {
 async function getEmpresa(idempresa) {
   const pool = await database.getPool();
   const query =
-    'SELECT nombre_empresa, sede, bio,photo, opinion, accesibilidad, ambiente_de_trabajo, sueldos, posibilidad_de_ascenso, conciliacion, estabilidad FROM empresa WHERE nombre=?';
+    'SELECT nombre_empresa, sede, bio, opinion, accesibilidad, ambiente_de_trabajo, sueldos, posibilidad_de_ascenso, conciliacion, estabilidad, photo_empresa FROM empresa WHERE nombre=?';
   const [empresa] = await pool.query(query, [idempresa]);
 
   return empresa;
@@ -100,6 +109,14 @@ async function getValidacion(id, idempresa) {
   const [valicion] = await pool.query(query, [id, idempresa]);
 
   return valicion;
+}
+
+async function getStateUser(id) {
+  const pool = await database.getPool();
+  const query = 'SELECT empleado, empresa FROM usuario WHERE idusuario=?';
+  const [stateUser] = await pool.query(query, [id]);
+
+  return stateUser;
 }
 
 async function createReview(
@@ -141,10 +158,18 @@ async function getEmail(email) {
 
 async function updatePhotoUser(photo, id) {
   const pool = await database.getPool();
-  const query = 'UPDATE usuario SET photo=? WHERE idusuario=?';
-  const [valicion] = await pool.query(query, [photo, id]);
 
-  return valicion;
+  const savedPhoto = await uploadPhoto({
+    photo,
+    destination: 'avatars',
+    width: 300,
+    photoName: `avatar_${id}.png`
+  })
+
+  const query = 'UPDATE usuario SET photo=? WHERE idusuario=?';
+  const [valicion] = await pool.query(query, [savedPhoto, id]);
+
+  return savedPhoto;
 }
 
 module.exports = {
@@ -161,6 +186,8 @@ module.exports = {
   getValidacion,
   createReview,
   getEmail,
-  getRol,
-  updatePhotoUser
+  getEmpresaByEmail,
+  updatePhotoUser,
+  getUserDataJob,
+  getStateUser
 };

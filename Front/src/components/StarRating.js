@@ -2,10 +2,14 @@ import React, { useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import '../css/Star.css';
 
-const StarRating = () => {
+const StarRating = ({ update }) => {
     const [rating, setRating] = useState(null);
-    const [hover, setHover] = useState(null)
-    console.log(rating);
+    const [hover, setHover] = useState(null);
+
+    const updateRating = (value) => {
+        setRating(value);
+        update(value);
+    }
     return (
         <div className="rating">
             {[...Array(5)].map((star, i) => {
@@ -16,7 +20,7 @@ const StarRating = () => {
                             type="radio"
                             name="rating"
                             value={ratingValue}
-                            onClick={() => setRating(ratingValue)}
+                            onClick={() => updateRating(ratingValue)}
                         />
                         <FaStar
                             className="star"

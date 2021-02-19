@@ -1,22 +1,26 @@
 import pirata from '../image/pirate.png'
-import empresa from '../image/bag-on-head.png'
 
 import '../css/style.css'
 
-function AvatarImageUser(props) {
+
+function AvatarImageUser({ image }) {
+
+    const avatar = image ? `${process.env.REACT_APP_UPLOADS_URL}avatars/${image}` : pirata;
 
     return (
         <div className="profile">
-            <img src={pirata} alt='foto avatar' />
+            <img src={avatar} alt='foto avatar' />
         </div>
     )
 }
 
-function AvatarImageEmpresa(props) {
+function AvatarImageEmpresa({ image }) {
+
+    const avatar = image ? `${process.env.REACT_APP_UPLOADS_URL}avatars/${image}` : pirata;
 
     return (
         <div className="profile">
-            <img src={empresa} alt='foto avatar' />
+            <img src={avatar} alt='foto avatar' />
         </div>
     )
 }

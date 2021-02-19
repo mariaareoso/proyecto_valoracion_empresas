@@ -1,26 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
 
-*{
-    margin: 0;
-    padding: 0;
-    font-family: 'Roboto', sans-serif;
+.error{
+    color: red;
 }
 
-.contenido{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-bottom: 1px solid gray;
-}
-
-.image{
-    display:none;
-    visibility:hidden
-}
+/* BARRA NAVEGADOR */
 
 .navegation{
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: center;
 }
 
@@ -34,37 +22,53 @@
     margin: auto;
     text-align: center;
     width: 100%;
-}
-.PopUp{
-    position: relative;
-    float: right;
-    width: 100%;
-    padding-top: 10px;
+    margin-top: 20px;
 }
 
+.PopUp{
+    width: 100%;
+} 
+
 .PopUp button{
-    background-color: rgb(255, 255, 255);
-    color: black;
-    border-radius: 10px;
-    border: 1px solid black;
+    background-color:#00B0FF;
+    border-bottom-style: none;
+    border: none;
+    color: white;
     width: 100%;
     display: flex;
     justify-content: center;
     padding-bottom: 8px;
+    padding-top: 4px;
 }
 
-.PopUp button:focus{
-    background-color: white;
-    color: black;
-    border-radius: 10px;
-    border: 1px solid black;
+.navLogerUser{
+    background-color:#00B0FF;
+    justify-content: space-evenly;
 }
+
+.navLogerUser a{
+    color:#e9eff1;
+    padding-top: 4px;
+    padding-left: 10px;
+}
+
+.navLogerUser button{
+    border-bottom-style:none;
+    border: none;
+    margin: 0;
+    background-color: transparent; 
+    color:#e9eff1;
+    width: 30%;
+}
+
+/* BUSCADOR */
 
 .searchGroup{    
     display: flex;
     justify-content: center;
     align-content: center;
     border-bottom: 1px solid black;
+    margin:0 10px;
 }
 
 .search{
@@ -72,7 +76,7 @@
     float: center;
     display: flex;
     align-content: center;
-    height: 30px;
+    height: 40px;
     margin-top: 50px;
     margin-bottom: 85px;
 }
@@ -80,7 +84,6 @@
 .inputSearch{  
     border-radius: 20px;
     height: 40px;
-    width: 200px;
     margin-right:10px ;
     padding-left: 20px;
     background-color: rgb(226, 226, 226);
@@ -102,6 +105,26 @@
   border-radius:30px;
 }
 
+/* TEXTO */
+
+.context{
+    margin:0 10px;
+}
+
+.contenido{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: 1px solid gray;
+}
+
+.image{
+    display:none;
+    visibility:hidden
+}
+
+/* FOOTER */
+
 .footer{
     background-color: #778DA9;
     width: 100%;
@@ -109,7 +132,7 @@
     display: flex;
     justify-content: center;
     flex-direction: row;
-    height: 280px;
+    height: 150px;
 }
 
 .footerElements{
@@ -118,10 +141,12 @@
 }
 
 .politicaTerminos{
+    font-size: 12px;
     margin-top: 5px;
     display: flex;
     list-style: none;
     flex-direction: row;
+
 }
 
 .icons{
@@ -146,6 +171,8 @@
     padding: 5px 0;
     font-size: 12px;
 }
+
+/* FORMULARIO LOGIN */
 
 .login{
     display: flex;
@@ -175,6 +202,13 @@
     margin: 15px 0;
 }
 
+/* FORMULARIO REGISTER */
+
+.check{
+    display: flex;
+    flex-direction: row;
+}
+
 .checcheckForm{
     display: flex;
     flex-direction: row;
@@ -188,6 +222,12 @@
 .checkinput{
     margin-top: 10px;
     margin-right: 10px;
+}
+
+/* LISTA EMPRESA */
+
+.logo{
+    border-radius: 20px;
 }
 
 .nombreEmpresa{
@@ -222,6 +262,20 @@
     text-align: center;
 }
 
+.botonSummary{
+    background-color: rgb(255, 255, 255);
+    color: black;
+    border-radius: 10px;
+    border: 1px solid black;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin: 10px;
+}
+
+/* INFO EMPRESA */
+
 .empresa{
     display: flex;
     flex-direction: column;
@@ -241,6 +295,12 @@
     width: 80%;
 }
 
+.userAvatarValoracion{
+    width: 40px;
+    height: 40px;
+    margin-bottom: 5px;
+}
+
 .resumenEmpresa{
     background-color:  #8DC8D8;
     margin: 5px;
@@ -250,6 +310,7 @@
 }
 
 .resumenEmpresaNombre{
+    margin-top: 10px;
     font-size: 28px;
     font-weight: bold;
 }
@@ -272,6 +333,23 @@
     margin-bottom: 15px;
 }
 
+.valoraciones section{
+    background-color:  #ffffff;
+    margin: 5px;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 15px;
+}
+
+.textoInputLogin{
+    margin: 10px 0;
+    width: 300px;
+    height: 100px;
+    text-align: center;
+}
+
+/* AVATAR */
+
 .avatarLogin{
     display:none;
     visibility:hidden
@@ -283,10 +361,36 @@
     color: #353e4b;
 }
 
+/* PERFILES */
+
+input{
+    border: 1px solid rgb(112, 110, 110);
+    border-radius: 2px;
+}
+
+.imagnePerfil{
+    width: 75px;
+    height: 75px;
+}
+
+.formPhoto{
+    display: flex;
+    justify-content: center;
+}
+
 .formPerfil{
     display: flex;
     flex-direction: column;
     margin: 8px;
+    background-color: #c5e5ee;
+    border-radius: 2px;
+    padding: 10px;
+}
+
+.formPerfil h2{
+    display: flex;
+    flex-direction: column;
+    margin: 10px auto;
 }
 
 .formPerfil div{
@@ -294,8 +398,586 @@
     flex-direction: column;
 }
 
-.formPerfil input{
+.formPersonalData input{
     margin: 5px 0;
+    box-shadow: none;
+    border-style: none;
+    border: 1px solid grey;
+    border-radius: 1px;
+    padding-left: 2px;
+}
+
+.formPerfilEmpleo{
+    display: flex;
+    flex-direction: column;
+    box-shadow: none;
+    border-style: none;
+    border:none;
+    background: #e7f4fd;
+    padding: 5px 1px 1px 5px;
+    border-radius: 5px;
+}
+
+.formPerfilEmpleoUnidad{
+    background: #a2b0bb;
+}
+
+.formPerfilEmpleo input{
+    margin: 5px 0;
+    box-shadow: none;
+    border-style: none;
+    border:none;
+    background: #e7f4fd
+}
+
+.formPerfil div h3{
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.formPerfil div label{
+    font-weight: bold;
+}
+
+.formPerfil .botomPerfilEmpresa{
+    display: block;
+    border-radius: 10px;
+    background-color: rgb(220, 234, 250);
+    border: 0.5px solid rgb(220, 234, 250);
+    color:#3e6070;
+    font-size: 16px;
+    margin: 8px auto;
+    width: 90%;
+    font-weight: bold ;
+}
+
+.EmpresaInfoPopUpbutton{
+    display: block;
+    border-radius: 10px;
+    background-color: rgb(220, 234, 250);
+    border: 0.5px solid rgb(220, 234, 250);
+    color:#3e6070;
+    font-size: 16px;
+    margin: 8px auto;
+    width: 90%;
+    font-weight: bold ;
+}
+
+.validacionColor{
+    color: green;
+    font-weight: bold;
+}
+
+.botonGuardarPerfil{
+    display: block;
+    border-radius: 10px;
+    background-color: rgb(220, 234, 250);
+    border: 0.5px solid rgb(220, 234, 250);
+    color:#3e6070;
+    font-size: 16px;
+    margin: 8px auto;
+    width: 90%;
+    font-weight: bold ;
+}
+
+.logoPerfil{
+    width: 180px;
+    border-radius: 10px;
+}
+
+.botomPerfilEmpresa{
+    display: block;
+    border-radius: 10px;
+    background-color: rgb(220, 234, 250);
+    border: 0.5px solid rgb(220, 234, 250);
+    color:#3e6070;
+    font-size: 16px;
+    margin: 8px auto;
+    width: 90%;
+    font-weight: bold ;
+}
+
+/* TABLA EMPLEADOS */
+
+table {
+    width: 100%;
+    margin-bottom:300px;
+ }
+ th{
+    padding: 5px;
+    font-size: 12px;
+    background-color: #5793a3;
+    color: #e7f4fd;
+ }
+ td {
+    width: 25%;
+    text-align: center;
+    border-spacing: 2px;
+    padding: 5px;
+    font-size: 12px;
+    background-color: #8DC8D8;
+    color: #e7f4fd;
+ }
+
+@media (min-width: 900px) {
+
+   /* BARRA NAVEGADOR */
+
+.pagina{
+    margin: 5px 35px 0px 35px ;
+}
+
+.navegation{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 60px;
+    padding-bottom: 30px;
+    border-bottom:1px solid #353e4b;
+}
+
+.logo{
+    color: #00B0FF;
+    font-family: Roboto, sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+    display: flex;
+    justify-content: left;
+    margin: auto;
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.PopUp{
+    width: 100%;
+    margin-right: 0;
+} 
+
+.PopUp button{
+   position: absolute;
+   right: 0%;
+    background-color: #ffffff;
+    border-bottom-style: none;
+    border: 1px solid grey;
+    border-radius: 25px;
+    color: #353e4b;
+    width: 150px;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 8px;
+    padding-top: 5px;
+    margin-right: 50px;
+}
+
+.navLogerUser{
+    background-color:#00B0FF;
+    justify-content: space-evenly;
+    visibility: hidden;
+}
+
+.navLogerUser a{
+    color:#e9eff1;
+    padding-top: 4px;
+    padding-left: 10px;
+}
+
+.navLogerUser button{
+    border-bottom-style:none;
+    border: none;
+    margin: 0;
+    background-color: transparent; 
+    color:#e9eff1;
+    width: 30%;
+}
+
+/* BUSCADOR */
+
+.searchGroup{    
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    border-bottom:none;
+    margin: 200px 10px;
+    padding: auto;
+}
+
+.search{
+    position: relative;
+    float: center;
+    display: flex;
+    align-content: center;
+    height: 40px;
+    margin-top: 50px;
+    margin-bottom: 85px;
+}
+
+.inputSearch{  
+    border-radius: 20px;
+    width: 550px;
+    height: 40px;
+    margin-right:10px ;
+    padding-left: 20px;
+    background-color: rgb(226, 226, 226);
+    border: 0.5px solid gray;
+    font-size: 16px;
+}
+
+.inputSearch:focus{  
+    background-color:none
+}
+
+.botonimagen{
+  background-image:url('../image/buscar.png');
+  background-position:center;
+  background-repeat:no-repeat;
+  background-color: rgb(226, 226, 226);
+  height: 40px;
+  width: 40px;
+  border-radius:30px;
+}
+
+/* TEXTO */
+
+.context{
+    border-top: 1px solid #353e4b;
+    margin:0 10px;
+}
+
+.contenido{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-bottom: 1px solid gray;
+}
+
+.image{
+    display:flex;
+    visibility:visible;
+    width: 550px;
+    
+}
+
+/* FOOTER */
+
+.footer{
+    background-color: #778DA9;
+    width: 100%;
+    color: white;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    height: 150px;
+}
+
+.footerElements{
+    align-content:space-between ;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.politicaTerminos{
+    font-size: 12px;
+    margin-top: 5px;
+    display: flex;
+    list-style: none;
+    flex-direction: row;
+    padding-left: 50px;
+}
+
+.politicaTerminos li{
+    margin: 0 20px;
+}
+
+.icons{
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.icons img{
+    float: right;
+    width: 20px;
+    height: 20px;
+
+}
+
+.footer> div  > p{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 5px 0;
+    font-size: 12px;
+}
+
+/* FORMULARIO LOGIN */
+
+.login{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.emailLogin{
+    width: 250px;
+    margin: 15px 0;
+    padding-left: 5px;
+}
+
+.passwordLogin{
+    width: 250px;
+    margin: 15px 0;
+    padding-left: 5px;
+}
+
+.bottomLogin{
+    width: 150px;
+    margin: 15px 0;
+}
+
+.linkRegister{
+    margin: 15px 0;
+}
+
+/* FORMULARIO REGISTER */
+
+.check{
+    display: flex;
+    flex-direction: row;
+}
+
+.checcheckForm{
+    display: flex;
+    flex-direction: row;
+}
+
+.checklabel{
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.checkinput{
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+/* LISTA EMPRESA */
+
+.empresaImagen .logo{
+    border-radius: 20px;
+    width: 175px;
+    margin: 0 25px;
+}
+
+.nombreEmpresa{
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.inputStar{
+    display: none;
+}
+
+.rating{
+    display: flex;
+    align-items: center
+}
+
+.star{
+    margin: 0.15rem; 
+    cursor: pointer; 
+    transition: color 200ms; 
+}
+
+.boton{
+    background-color: rgb(255, 255, 255);
+    color: black;
+    border-radius: 10px;
+    border: 1px solid black;
+    width: 80%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.botonSummary{
+    background-color: rgb(255, 255, 255);
+    color: black;
+    border-radius: 10px;
+    border: 1px solid black;
+    width: 180px;
+    height: auto;
+    display:block;
+    text-align: center;
+    padding: 10px;
+    margin-top: 150px;
+}
+
+/* INFO EMPRESA */
+
+.empresa{
+    display: flex;
+    flex-direction: row;
+    background-color:  #8DC8D8;
+    border-radius: 20px;
+    margin: 15px 0;
+    align-items: center;
+    height: 250px;
+}
+
+.empresaCuerpo{
+    padding: 1px;
+    margin: 0 10px;
+}
+
+.empresa .boton{
+    margin-bottom: 15px;
+    width: 80%;
+}
+
+.userAvatarValoracion{
+    width: 40px;
+    height: 40px;
+    margin-bottom: 5px;
+}
+
+.resumenEmpresa{
+    background-color:  #8DC8D8;
+    margin: 5px;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: row;
+}
+
+.resumenEmpresa .logo{
+    width: 150px;
+    position: relative;
+    right: 10px;
+}
+
+.resumenEmpresaNombre{
+    margin-top: 10px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.resumenResumen{
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.graficosEmpresa{
+    display:none;
+    visibility:hidden
+}
+
+.valoraciones{
+    background-color:  #c5e5ee;
+    margin: 5px;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 15px;
+}
+
+.valoraciones section{
+    background-color:  #ffffff;
+    margin: 5px;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 15px;
+}
+
+.textoInputLogin{
+    margin: 10px 0;
+    width: 300px;
+    height: 70px;
+    text-align: center;
+}
+
+/* AVATAR */
+
+.avatarLogin{
+    display:flex;
+    position: absolute;
+    right: 40px;
+    top: 30px;
+    visibility: visible;
+}
+
+.navLogerUser{
+    display: flex;
+    justify-content: space-evenly;
+    color: #353e4b;
+}
+
+/* PERFILES */
+
+.imagnePerfil{
+    width: 75px;
+    height: 75px;
+}
+
+.formPhoto{
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.formPerfil{
+    display: flex;
+    flex-direction: column;
+    margin: 8px;
+    background-color: #c5e5ee;
+    border-radius: 2px;
+    padding: 10px;
+}
+.formPerfil h2{
+    display: flex;
+    flex-direction: unset;
+    margin: 10px 0px;
+}
+
+.formPerfil div{
+    display: flex;
+    flex-direction: column;
+}
+
+.formPersonalData input{
+    margin: 5px 0;
+    box-shadow: none;
+    border-style: none;
+    border: 1px solid grey;
+    border-radius: 1px;
+    padding-left: 2px;
+}
+
+.formPerfilEmpleo{
+    display: flex;
+    flex-direction: column;
+    box-shadow: none;
+    border-style: none;
+    border:none;
+    background: #e7f4fd;
+    padding: 5px 1px 1px 5px;
+    border-radius: 5px;
+}
+
+.formPerfilEmpleoUnidad{
+    background: #a2b0bb;
+}
+
+.formPerfilEmpleo input{
+    margin: 5px 0;
+    box-shadow: none;
+    border-style: none;
+    border:none;
+    background: #e7f4fd
 }
 
 .formPerfil div h3{
@@ -308,95 +990,55 @@
 }
 
 .EmpresaInfoPopUpbutton{
-    display: block;
+    position: relative;
     border-radius: 10px;
-    background-color: rgb(226, 226, 226);
-    border: 0.5px solid gray;
+    background-color: #c5e5ee;
+    border: 0.5px solid #c5e5ee;
     font-size: 16px;
-    margin: 8px auto;
-    width: 90%;
+    padding: 5px 8px;
+    width: 100%;
 }
 
-@media (min-width: 700px) {
+.validacionColor{
+    color: green;
+    font-weight: bold;
+}
 
-    .avatarLogin{
-        display: flex;
-        visibility:visible
-    }
+.botonGuardarPerfil{
+    margin-top: 10px;
+}
 
-    .navLogerUser{
-        display: none;
-        visibility:hidden
-    }
+/* TABLA EMPLEADOS */
 
-    .navegation{
-        border-bottom: 1px solid #353e4b;
-        flex-direction: row;
-    }
+table {
+    margin-top: 20px;
+    width: 100%;
+    margin-bottom:450px;
+ }
+ th{
+    padding: 5px;
+    font-size: 12px;
+    background-color: #5793a3;
+    color: #e7f4fd;
+    font-size: 15px;
+    padding-left: 15px;
+ }
+ td {
+    width: 25%;
+    text-align: left;
+    border-spacing: 2px;
+    padding: 5px;
+    font-size: 15px;
+    background-color: #8DC8D8;
+    color: #e7f4fd;
+    padding-left: 15px;
+ }
 
-    .logo{
-        color: #00B0FF;
-        font-family: Roboto, sans-serif;
-        font-size: 30px;
-        font-weight: bold;
-        display: flex;
-        justify-content: left;
-        margin: auto;
-        text-align: center;
-        width: 100%;
-    }
-    
-    .logo{
-        color: #00B0FF;
-        font-family: Roboto, sans-serif;
-        font-size: 30px;
-        font-weight: bold;
-        padding-right: 10px;
-    }
-
-    .searchGroup{
-        padding: 200px 0;
-    }
-
-    .inputSearch{
-        width: 500px;
-    }
-
-    .PopUp{
-        position: relative;
-        float: right;
-        width: 30%;
-        padding-top: 0px;
-        margin-right:0px ;
-    }
-    
-    .PopUp button{
-        background-color: rgb(255, 255, 255);
-        color: black;
-        border-radius: 20px;
-        border: 1px solid black;
-        width: 80%;
-        padding: 4px 0;
-    }
-
-    .action{
-        position: fixed;
-        top: 60px;
-        right: 40px;
-    }
-
-    .contenido{
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        border-bottom: none;
-        margin: 5px 0;
-    }
-    
-    .image{
-        display:flex;
-        visibility:visible;
-        width: 350px
-    }
+ td > button{
+     color: #464749;
+     border: 1px solid  #b5cff3;;
+     background-color: #b5cff3;
+     padding: 2px 5px;
+ }
     
 }
