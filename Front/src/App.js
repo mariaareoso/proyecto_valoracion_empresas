@@ -9,6 +9,7 @@ import RegisterHome from './pages/RegisterHome';
 import Perfil from './pages/Perfil';
 import EmpleadosList from './pages/ListaEmpleados';
 
+
 function App() {
   return (
     <Router>
